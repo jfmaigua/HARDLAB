@@ -177,6 +177,45 @@ routes.get('/equipoAsignado/:id', (req, res)=>{
         })
     })
 })
+routes.get('/estacion_trabajo/:nombre', (req, res)=>{
+    const nombre = req.params.nombre;
+
+    req.getConnection((err, conn)=>{
+        if(err) {
+            res.status(500).send("Error al conectarse a la base de datos");
+            return;
+        }
+
+        conn.query(`SELECT * FROM estacion_trabajo WHERE NOMBRE ='${nombre}'`, (err, rows)=>{
+            if(err) return res.send(err)
+            if(rows.length === 0) {
+                res.status(404).send("No se encontraron estaciones con el nombre especificado");
+                return;
+            }
+            res.json(rows)
+        })
+    })
+})
+routes.get('/informacion_estacion_trabajo/:nombre', (req, res)=>{
+    const nombre = req.params.nombre;
+
+    req.getConnection((err, conn)=>{
+        if(err) {
+            res.status(500).send("Error al conectarse a la base de datos");
+            return;
+        }
+
+        conn.query(`SELECT ET.NOMBRE AS ESTACION,P.NOMBRE,P.APELLIDO,P.TELEFONO FROM estacion_trabajo AS ET INNER JOIN persona AS P ON ET.COD_ESTACION=P.COD_ESTACION WHERE ET.NOMBRE='${nombre}'`, (err, rows)=>{
+            if(err) return res.send(err)
+            if(rows.length === 0) {
+                res.status(404).send("No se encontraron estaciones con el nombre especificado");
+                return;
+            }
+            res.json(rows)
+        })
+    })
+})
+
 
 
 routes.post('/equipo', (req, res)=>{
