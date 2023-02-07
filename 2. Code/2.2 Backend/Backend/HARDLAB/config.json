@@ -2,8 +2,8 @@
     "database": {
         "host": "localhost",
         "port": 3306,
-        "user": "jonathan",
-        "password": "jonathan",
+        "user": "root",
+        "password": "",
         "database": "hardlab"
     },
     "secret": "prueba"

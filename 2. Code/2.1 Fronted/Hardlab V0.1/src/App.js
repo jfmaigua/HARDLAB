@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import img1 from './img/logo.png';
 import Principal from './Components/Principal'
 import ToolForm from './Components/ToolForm';
-import DesktopForm from './Components/DesktpForm';
+import DesktopForm from './Components/DesktopForm';
 import PersonForm from './Components/PersonForm'
 import StationForm from './Components/StationForm'
 import LogIn from './Components/LogIn';

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 function DetailForm() {
     const [data, setData] = useState('');
+    const [equipo, setEquipo] = useState('');
     const [COD_EQUIPO, setCOD_EQUIPO] = useState('');
     const [MAIN_BOARD, setMAIN_BOARD] = useState('');
     const [SERIAL, setSERIAL] = useState('');
@@ -79,12 +80,14 @@ function DetailForm() {
     const handleSubmit = event => {
         event.preventDefault();
         const dataDetalle = { COD_EQUIPO, MAIN_BOARD, SERIAL, PROCESADOR, RAM, DISCO_DURO, UNIDAD_CD, PUERTOS_PCI_EXPRESS, PUERTOS_USB, PUERTOS_PS2, UNIDAD_DISQUETE, TARJETA_RED, TARJETA_VIDEO, PUERTOS_VGA, TARJETA_SONIDO, COMENTARIOS, PUERTOS_PCI };
-        console.log(dataDetalle)
+        console.log(dataDetalle.COD_EQUIPO)
         axios.post('/api/detalleequipo', dataDetalle)
             .then(res => {
                 console.log(res);
                 console.log(res.data);
-            })
+                setEquipo(res.data);
+            })            
+            console.log(equipo);        
     }
 
     useEffect(() => {
@@ -99,7 +102,7 @@ function DetailForm() {
     const estaciones = [];
     for (const estacion of data) {
 
-        estaciones.push(<option className="form-control input-group">{estacion.COD_ESTACION}</option>)
+        estaciones.push(<option className="form-control input-group">{estacion.COD_EQUIPO}</option>)
     }
 
 

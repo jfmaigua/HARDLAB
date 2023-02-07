@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Modal,Form } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 
 function EditForm({ data, handleSave }) {
     const [formData, setFormData] = useState({
         COD_EQUIPO: data.COD_HERRAMIENTA,
-        COD_ESTACION: data.COD_ESTACION,        
+        COD_ESTACION: data.COD_ESTACION,
         MARCA: data.MARCA,
         FECHA_ENTRADA: data.CANTIDAD,
-        FECHA_SALIDA: data.CODIGO_BARRAS,        
+        FECHA_SALIDA: data.CODIGO_BARRAS,
         ESTADO: data.ESTADO
     });
 
@@ -45,7 +45,7 @@ function EditForm({ data, handleSave }) {
                 <Form.Label>Estado</Form.Label>
                 <Form.Control type="text" name="ESTADO" value={formData.ESTADO} onChange={handleChange} />
             </Form.Group>
-            <br/>
+            <br />
             <button onClick={() => handleSave(formData)} className='btn btn-success btn-icon-split'>Guardar</button>
         </Form>
     );
@@ -59,23 +59,12 @@ function DesktopTable() {
     const [editData, setEditData] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
+
 
     useEffect(() => {
-        axios.get('/api/detalleequipo')
+        axios.get('/api/equipo')
             .then(res => {
                 setData(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }, []);
-    console.log(data)
-
-    useEffect(() => {
-        axios.get(`/api/equipo/${data.COD_EQUIPO}`)
-            .then(res => {
-                setEquipo(res.data);
             })
             .catch(err => {
                 console.log(err);
@@ -94,6 +83,7 @@ function DesktopTable() {
             });
     }
 
+
     const handleEdit = (item) => {
         setEditData(item);
         setIsEditing(true);
@@ -102,26 +92,26 @@ function DesktopTable() {
 
     const handleSave = (item) => {
         axios.put(`/api/equipo/${item.COD_EQUIPO}`, item)
-        .then(res => {
-            const updatedData = data.map(dataItem => {
-                if (dataItem.COD_EQUIPO === item.COD_EQUIPO) {
-                    return res.data;
-                }
-                return dataItem;
+            .then(res => {
+                const updatedData = data.map(dataItem => {
+                    if (dataItem.COD_EQUIPO === item.COD_EQUIPO) {
+                        return res.data;
+                    }
+                    return dataItem;
+                });
+                setEquipo(updatedData);
+                setIsModalOpen(false);
+            })
+            .catch(err => {
+                console.log(err);
             });
-            setEquipo(updatedData);
-            setIsModalOpen(false);
-        })
-        .catch(err => {
-            console.log(err);
-        });
     }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setIsEditing(false);
-    }
-
+    };
+    
     return (
         <div className="card shadow mb-4">
             <div className="card-header py-3">
@@ -132,17 +122,18 @@ function DesktopTable() {
                     <table className="table-bordered" id="dataTable" width="100%" cellSpacing="0">
                         <thead>
                             <tr>
-                                <th>Código herramienta</th>
+                                <th>Código equipo</th>
                                 <th>Estación</th>
-                                <th>Marca</th>                                
+                                <th>Marca</th>
                                 <th>Fecha de Entrada</th>
                                 <th>Fecha de Salida</th>
+                                <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map(item => (
-                                <TableRow key={item.COD_EQUIPO} herramienta={item} handleDelete={handleDelete} handleEdit={handleEdit} />
+                            {herramienta.map(item => (
+                                <TableRow key={item.COD_EQUIPO} data={item} handleDelete={handleDelete} handleEdit={handleEdit} />
                             ))}
 
                         </tbody>
@@ -154,7 +145,7 @@ function DesktopTable() {
                     <Modal.Title id="ModalHeader">Editar herramienta</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <EditForm herramienta={editData} handleSave={handleSave}></EditForm> 
+                    <EditForm data={editData} handleSave={handleSave}></EditForm>
                 </Modal.Body>
             </Modal>
 
@@ -167,7 +158,7 @@ function TableRow({ herramienta, handleDelete, handleEdit }) {
         <tr>
             <td>{herramienta.COD_EQUIPO}</td>
             <td>{herramienta.COD_ESTACION}</td>
-            <td>{herramienta.NOMBRE}</td>
+            <td>{herramienta.MARCA}</td>
             <td>{herramienta.FECHA_ENTRADA}</td>
             <td>{herramienta.FECHA_SALIDA}</td>
             <td>{herramienta.ESTADO}</td>

@@ -77,7 +77,10 @@ routes.post('/detalleequipo', (req, res)=>{
         conn.query('INSERT INTO detalleequipo set ?', [req.body], (err, rows)=>{
             if(err) return res.send(err)
 
-            res.send('Detalle de equipo añadido!')
+            conn.query('SELECT LAST_INSERT_ID() as id', (err, rows) => {
+                if(err) return res.send(err)
+                res.send({ id: rows[0].id })})
+                
         })
     })
 })

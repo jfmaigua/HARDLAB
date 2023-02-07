@@ -1,6 +1,6 @@
 import React from 'react'
 import Principal from '../Components/Principal';
-import DesktopForm from '../Components/DesktpForm';
+import DesktopForm from '../Components/DesktopForm';
 
 function DesktopRegsiter() {
     return (
