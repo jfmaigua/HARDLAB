@@ -1,10 +1,10 @@
 import React, { useEffect, useState  } from "react";
-
+import { useHistory } from "react-router-dom";
 import "../assets/css/App.css";
 
 //import Cookies from 'universal-cookie';
-import Principal from '../components/Principal';
-import Container from "../components/Contanier";
+import PrincipalUser from '../components/PrincipalUser';
+import ContainerUser from "../components/ContainerUser";
 import Cookies from 'universal-cookie';
 
 
@@ -19,6 +19,12 @@ const Dashboard  = () =>  {
       setUserRole(cookies.get('rol'));
     }
   }, []);
+ 
+    let history = useHistory()
+    function handleClick() {
+      history.push("/")
+    }
+  
 
     //const cookies = new Cookies();
     return (
@@ -34,18 +40,24 @@ const Dashboard  = () =>  {
         {isAuthenticated && userRole === '2' ? (
           <div className="row">
               <div className="col-2">
-              <Principal />
+              <PrincipalUser />
                 
               </div>
               <div className="col-10">
-                <Container/>
+                <ContainerUser/>
               </div>
           </div>
       ) : (
         <div>
           
           Inicie Sesion
+          <br/>
+          <button onClick={() => handleClick()}>
+             Go home
+          </button>
+          
         </div>
+
   
     )}
     </div>

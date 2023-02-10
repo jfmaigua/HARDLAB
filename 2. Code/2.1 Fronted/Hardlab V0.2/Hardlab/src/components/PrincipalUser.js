@@ -4,7 +4,7 @@ import React from 'react';
 
 
 
-function Principal() {
+function PrincipalUser() {
 
   return (
     <div id="page-top">
@@ -18,7 +18,7 @@ function Principal() {
           {/* Sidebar - Brand */}
           <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
             <div className="sidebar-brand-icon">
-              <img className="logo" src={logo} alt="" />
+              <img className="logo" src={logo} alt="logo" />
             </div>
             <div className="sidebar-brand-text mx-3"> HARDLAB </div>
           </a>
@@ -50,8 +50,7 @@ function Principal() {
             </a>
             <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div className="bg-white py-2 collapse-inner rounded">
-                <Link className="collapse-item" to="/toolRegister">Agregar</Link>
-                <Link className="collapse-item" to="/toolUpdate">Ver</Link>
+                <Link className="collapse-item" to="/herremientas-usuario">Ver</Link>
               </div>
             </div>
           </li>
@@ -65,39 +64,9 @@ function Principal() {
             </a>            
             <div id="collapseUtilities" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div className="bg-white py-2 collapse-inner rounded">
-                <Link className="collapse-item" to="/desktopRegister">Agregar</Link>     
-                <Link className="collapse-item" to="/addDetail">Agregar Detalle</Link>
-                <Link className="collapse-item" to="/desktopView">Ver</Link>          
-              </div>
-            </div>
-          </li>
-
-          {/*  {/* Nav Item - Utilities Collapse Menu */}
-          <li className="nav-item">
-            <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapseStation"
-              aria-expanded="true" aria-controls="collapseStation">
-              <i className="fas fa-fw fa-wrench"></i>
-              <span>Estaciones de Trabajo</span>
-            </a>            
-            <div id="collapseStation" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div className="bg-white py-2 collapse-inner rounded">
-                <Link className="collapse-item" to="/registerStation">Agregar</Link>  
-                <Link className="collapse-item" to="/stationView">Ver</Link>          
-              </div>
-            </div>
-          </li>
-
-          {/*  {/* Nav Item - Utilities Collapse Menu */}
-          <li className="nav-item">
-            <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapsePeople"
-              aria-expanded="true" aria-controls="collapsePeople">
-              <i className="fas fa-fw fa-wrench"></i>
-              <span>Usuarios</span>
-            </a>            
-            <div id="collapsePeople" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div className="bg-white py-2 collapse-inner rounded">
-                <Link className="collapse-item" to="/addUser">Agregar</Link>  
-                <Link className="collapse-item" to="/viewUser">Ver</Link>          
+                <Link className="collapse-item" to="/agregar-equipo">Agregar</Link>     
+                <Link className="collapse-item" to="/agregar-detalle-equipo">Agregar Detalle</Link>
+                <Link className="collapse-item" to="/equipos-usuario">Ver</Link>          
               </div>
             </div>
           </li>
@@ -117,10 +86,13 @@ function Principal() {
             </div>
           </li>          
 
+          
+
+
         </ul>
       </div>
     </div>
   );
 }
 
-export default Principal;
+export default PrincipalUser;

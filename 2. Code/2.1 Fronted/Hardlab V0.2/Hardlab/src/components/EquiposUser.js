@@ -1,9 +1,9 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import TableUser from './TableUser';
+import TableEquiposUser from './TableEquiposUser';
 
 
-function Container() {
+function EquipoUser() {
 
     const cookies = new Cookies();
 
@@ -54,11 +54,11 @@ function Container() {
 
                             {/* Nav Item - User Information */}
                             <li className="nav-item dropdown no-arrow">
-                                <a className="nav-link dropdown-toggle" href="/" id="userDropdown" role="button"
+                                <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">{cookies.get('firstName')+' '+cookies.get('lastName')}</span>
                                     <img className="img-profile rounded-circle"
-                                        src="img/undraw_profile.svg" alt='imagen' />
+                                        src="img/undraw_profile.svg" />
                                 </a>
                                 
                             </li>
@@ -80,7 +80,7 @@ function Container() {
                             </div>
                             <div className="card-body">
                             <div className='container-fluid'>
-                                <TableUser/>
+                                <TableEquiposUser/>
                             </div>
                                 
                             </div>
@@ -112,4 +112,4 @@ function Container() {
         </div >
     );
 }
-export default Container;
+export default EquipoUser;

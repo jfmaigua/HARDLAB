@@ -45,7 +45,10 @@ class Login extends Component {
               cookies.set('username', data.username, {path: "/"});
               cookies.set('rol', data.rol, {path: "/"});
               cookies.set('token', data.token, {path: "/"});
+              cookies.set('estacionTrabajo',data.estacionTrabajo,{path: "/"});
+              console.log(cookies);
               alert(`Bienvenido ${data.firstName} ${data.lastName}`);
+
               
                   
                   

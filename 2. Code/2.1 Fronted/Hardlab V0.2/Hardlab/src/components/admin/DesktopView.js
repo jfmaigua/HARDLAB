@@ -1,9 +1,10 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import TableUser from './TableUser';
+import DesktopTable from './DesktopTable';
 
 
-function Container() {
+
+function DesktopView() {
 
     const cookies = new Cookies();
 
@@ -80,7 +81,7 @@ function Container() {
                             </div>
                             <div className="card-body">
                             <div className='container-fluid'>
-                                <TableUser/>
+                                <DesktopTable/>
                             </div>
                                 
                             </div>
@@ -112,4 +113,4 @@ function Container() {
         </div >
     );
 }
-export default Container;
+export default DesktopView;

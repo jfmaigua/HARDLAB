@@ -1,9 +1,10 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import TableUser from './TableUser';
+import UserTable from './UserTable';
 
 
-function Container() {
+
+function UserView() {
 
     const cookies = new Cookies();
 
@@ -80,7 +81,7 @@ function Container() {
                             </div>
                             <div className="card-body">
                             <div className='container-fluid'>
-                                <TableUser/>
+                                <UserTable/>
                             </div>
                                 
                             </div>
@@ -112,4 +113,4 @@ function Container() {
         </div >
     );
 }
-export default Container;
+export default UserView;

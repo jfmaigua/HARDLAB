@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 import TableUser from './TableUser';
 
 
-function Container() {
+function ContainerUser() {
 
     const cookies = new Cookies();
 
@@ -112,4 +112,4 @@ function Container() {
         </div >
     );
 }
-export default Container;
+export default ContainerUser;

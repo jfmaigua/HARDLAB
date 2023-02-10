@@ -1,9 +1,9 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import TableUser from './TableUser';
+import StationTable from './StationTable';
 
 
-function Container() {
+function ToolsView() {
 
     const cookies = new Cookies();
 
@@ -80,7 +80,7 @@ function Container() {
                             </div>
                             <div className="card-body">
                             <div className='container-fluid'>
-                                <TableUser/>
+                                <StationTable/>
                             </div>
                                 
                             </div>
@@ -112,4 +112,4 @@ function Container() {
         </div >
     );
 }
-export default Container;
+export default ToolsView;
