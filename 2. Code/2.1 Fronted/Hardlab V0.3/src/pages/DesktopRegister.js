@@ -3,6 +3,7 @@ import DesktopForm from '../components/admin/DesktpForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 function DesktopRegsiter() {
     const cookies = new Cookies();
@@ -35,7 +36,7 @@ function DesktopRegsiter() {
                 </div>
             </div>
         ) : (
-            history.push("/error")
+            <Error/>
          )}
        </div>
        

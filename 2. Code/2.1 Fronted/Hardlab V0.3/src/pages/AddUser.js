@@ -3,6 +3,7 @@ import UserForm from '../components/admin/UserForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 function AddUser() {
 
@@ -12,35 +13,35 @@ function AddUser() {
 
     let history = useHistory()
     function handleClick() {
-        history.push("/")
+      history.push("/")
     }
 
     useEffect(() => {
         if (cookies.get('token')) {
-            setIsAuthenticated(true);
-            setUserRole(cookies.get('rol'));
+        setIsAuthenticated(true);
+        setUserRole(cookies.get('rol'));
         }
     }, []);
 
     return (
         <div>
             {isAuthenticated && userRole === '1' ? (
-                <div>
-                    <div className="row">
-                        <div className="col-2">
-                            <Principal />
-                        </div>
-                        <div className="col-10">
-                            <UserForm />
-                        </div>
+            <div>
+                <div className="row">
+                    <div className="col-2">
+                        <Principal />
+                    </div>
+                    <div className="col-10">
+                        <UserForm />
                     </div>
                 </div>
-            ) : (
-                history.push("/error")
-            )}
-        </div>
-
-    );
+            </div>
+         ) : (
+            <Error/>
+         )}
+       </div>
+       
+     );
 }
 
 export default AddUser;

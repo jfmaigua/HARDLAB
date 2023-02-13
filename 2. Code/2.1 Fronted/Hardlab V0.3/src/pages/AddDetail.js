@@ -2,7 +2,8 @@ import Principal from '../components/Principal';
 import DetailForm from '../components/admin/DetailForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";;
+import { useHistory } from "react-router-dom";
+import Error from "../components/Error";
 
 function AddDetail() {
     const cookies = new Cookies();
@@ -34,7 +35,7 @@ function AddDetail() {
                 </div>
             </div>
            ) : (
-            (history.push("/error"))
+            <Error/>
       )}
     </div>
     

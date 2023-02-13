@@ -4,6 +4,7 @@ import StationForm from '../components/admin/StationForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 function RegisterStation() {
   const cookies = new Cookies();
@@ -35,7 +36,7 @@ function RegisterStation() {
           </div>
         </div>
       ) : (
-        history.push("/error")
+        <Error />
       )}
     </div>
 

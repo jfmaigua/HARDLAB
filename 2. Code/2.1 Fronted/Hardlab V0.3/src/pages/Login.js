@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import '../assets/css/index.css';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import Error from "../components/Error"
 
 class Login extends Component {
   constructor(props) {

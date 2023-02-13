@@ -3,6 +3,7 @@ import FormularioEquipo from '../components/FormularioEquipo';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 function RegistrarEquipo() {
     const cookies = new Cookies();
@@ -34,7 +35,7 @@ function RegistrarEquipo() {
                     </div>
                 </div>
             ) : (
-                history.push("/error")
+                <Error/>
             )}
         </div>
 

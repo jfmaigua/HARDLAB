@@ -3,6 +3,7 @@ import UserView from '../components/admin/UserView';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 function UsersView() {
     const cookies = new Cookies();
@@ -34,7 +35,7 @@ function UsersView() {
                     </div>
                 </div>
             ) : (
-                history.push("/error")
+                <Error/>
             )}
         </div>
 

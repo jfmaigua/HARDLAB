@@ -3,6 +3,7 @@ import StationView from '../components/admin/StationView';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 function StationsView() {
     const cookies = new Cookies();
@@ -35,7 +36,7 @@ function StationsView() {
                     </div>
                 </div>
             ) : (
-                history.push("/error")
+                <Error/>
             )}
         </div>
 

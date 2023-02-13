@@ -3,6 +3,7 @@ import ToolForm from '../components/admin/ToolForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 function ToolRegister() {
     const cookies = new Cookies();
@@ -34,7 +35,7 @@ function ToolRegister() {
                     </div>
                 </div>
             ) : (
-                history.push("/error")
+                <Error/>
             )}
         </div>
 

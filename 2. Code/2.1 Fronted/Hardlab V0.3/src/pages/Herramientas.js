@@ -4,7 +4,7 @@ import HerramientasUser from "../components/HerramientasUser";
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-
+import Error from "../components/Error"
 
 const Herramientas = () =>  {
    const cookies = new Cookies();
@@ -38,7 +38,7 @@ const Herramientas = () =>  {
           </div>
     </div>
     ) : (
-      history.push("/error")
+      <Error/>
    )}
  </div>
  

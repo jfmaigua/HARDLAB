@@ -5,11 +5,11 @@ import TableUser from "../components/TableUser";
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Error from "../components/Error"
 
 
 
-
-const InicioUsuario = () => {
+const InicioUsuario  = () =>  {
   const cookies = new Cookies();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState("");
@@ -20,30 +20,30 @@ const InicioUsuario = () => {
   }
 
   useEffect(() => {
-    if (cookies.get('token')) {
+      if (cookies.get('token')) {
       setIsAuthenticated(true);
       setUserRole(cookies.get('rol'));
-    }
+      }
   }, []);
-  return (
-    <div>
-      {isAuthenticated && userRole === '2' ? (
-        <div>
-          <div className="row">
-            <div className="col-2">
-              <PrincipalUser />
+    return (
+      <div>
+            {isAuthenticated && userRole === '2' ? (
+            <div>
+              <div className="row">
+                  <div className="col-2">
+                    <PrincipalUser />
+                  </div>
+                  <div className="col-10">
+                    <ContainerUser/>
+                  </div>
+              </div>  
             </div>
-            <div className="col-10">
-              <ContainerUser />
-            </div>
-          </div>
-        </div>
       ) : (
-        history.push("/error")
-      )}
-    </div>
-
-  );
+        <Error/>
+        )}
+      </div>
+ 
+);
 }
 
 

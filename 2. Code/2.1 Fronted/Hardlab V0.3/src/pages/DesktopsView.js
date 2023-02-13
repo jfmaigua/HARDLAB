@@ -3,7 +3,7 @@ import DesktopView from '../components/admin/DesktopView';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-
+import Error from "../components/Error"
 function DesktopsView() {
     const cookies = new Cookies();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,7 +35,7 @@ function DesktopsView() {
                 </div>
             </div>
         ) : (
-            history.push("/error")
+            <Error/>
          )}
        </div>
        
