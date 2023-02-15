@@ -54,7 +54,6 @@ function EditForm({ data, handleSave }) {
     );
 }
 
-
 function DesktopTable() {
 
     const [data, setData] = useState([]);
@@ -73,9 +72,9 @@ function DesktopTable() {
         setShowDetail(true);
     }
 
-    console.log(selectedItem)
     const handleCloseDetail = () => {
         setShowDetail(false);
+        setSelectedItem("")
     }
 
     useEffect(() => {
@@ -84,15 +83,14 @@ function DesktopTable() {
                 setData(res.data);
             })
             .catch(err => {
-                console.log(err);
+                alert("No se han registrado equipos. ")
             });
     }, []);
 
     const handleDelete = (id) => {
         axios.delete(`http://localhost:4000/api/equipo/${id}`)
             .then(res => {
-                const updatedData = data.filter(item => item.COD_EQUIPO !== id);
-                console.log(updatedData)
+                const updatedData = data.filter(item => item.COD_EQUIPO !== id);                
                 setData(updatedData);
             })
             .catch(err => {
@@ -127,23 +125,22 @@ function DesktopTable() {
         setIsModalOpen(false);
         setIsEditing(false);
     };
-
+    
     function DetailModal({ show, onClose, item }) {
         const [detailData, setDetailData] = useState({});
 
         useEffect(() => {
-            const fetchData = async () => {
-                try {
-                    const res = await axios.get(`http://localhost:4000/api/equipoDetalle/${item}`);
-                    setDetailData(res.data);
-                } catch (err) {
-                    console.log(err);
-                }
-            }; fetchData();
+            axios.get(`http://localhost:4000/api/equipoDetalle/${item}`)
+                .then(res => {
+                    const detail = res.data.map(dataItem => {
+                        setDetailData(dataItem);
+                    })
+                })
+                .then(() => setShowDetail(true))
+                .catch((error) => {
+                    setShowDetail(false);
+                });
         }, [item]);
-
-        console.log(item)
-        console.log(detailData)
 
         return (
             <div>
@@ -154,19 +151,92 @@ function DesktopTable() {
                                 <Modal.Title className='font-weight-bold text-primary'>Detalle de Equipo</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {detailData.ESTADO &&
-                                    <p>ESTADO:{detailData.ESTADO}</p>
-                                }
-                                {detailData.MARCA &&
-                                    <p>MARCA:{detailData.MARCA}</p>
-                                }
+                                <div className='row'>
+                                    <div className="col-lg-4 mb-4 ">
+                                        <span className='font-weight-bold'>Serial</span>
+                                        <p>{detailData.SERIAL}</p>
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Estacion de Trabajo</span>
+                                    <p>{detailData.COD_ESTACION}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Fecha de ingreso</span>
+                                    <p>{FormatearFecha(detailData.FECHA_INGRESO)}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Fecha de salida</span>
+                                    <p>{FormatearFecha(detailData.FECHA_SALIDA)}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Marca</span>
+                                    <p>{detailData.MARCA}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Procesador</span>
+                                    <p>{detailData.PROCESADOR}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>RAM</span>
+                                    <p>{detailData.RAM}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Main Board</span>
+                                    <p>{detailData.MAIN_BOARD}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Puertos PCI</span>
+                                    <p>{detailData.PUERTOS_PCI}</p>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Puertos PCI Express</span>
+                                    <p>{detailData.PUERTOS_PCI_EXPRESS}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Puertos PS2</span>
+                                    <p>{detailData.PUERTOS_PS2}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Puertos USB</span>
+                                    <p>{detailData.PUERTOS_USB}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Puertos VGA</span>
+                                    <p>{detailData.PUERTOS_VGA}</p>
+                                </div>
+
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Tarjeta de Red</span>
+                                    <p>{detailData.TARJETA_RED}</p>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Tarjeta de Sonido</span>
+                                    <p>{detailData.TARJETA_SONIDO}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Tarjeta de Video</span>
+                                    <p>{detailData.TARJETA_VIDEO}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Unidad CD</span>
+                                    <p>{detailData.UNIDAD_CD}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Unidad Disquete</span>
+                                    <p>{detailData.UNIDAD_DISQUETE}</p>
+                                </div>
                             </Modal.Body>
                         </Modal>
                     </Portal>
                 }
-            </div>
+            </div >
         );
     };
+
 
     return (
         <div className="card shadow mb-4">
