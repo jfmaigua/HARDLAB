@@ -9,7 +9,7 @@ function TableUser() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(`http://localhost:4000/api/herramienta/${cookies.get('estacioTrabajo')}`);
+      const response = await axios.get(`http://localhost:4000/api/herramienta/${cookies.get('estacionTrabajo')}`);
       setData(response.data);
     }
 

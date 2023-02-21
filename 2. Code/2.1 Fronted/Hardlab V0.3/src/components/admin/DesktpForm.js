@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
 
 
 function DesktopForm() {
@@ -54,17 +55,52 @@ function DesktopForm() {
 
     const [error, setError] = useState({});
     const [isValid, setIsValid] = useState(false);
+    const mostrarAlerta =() =>{
+
+        swal({
+          title:"¡Información Incompleta!", 
+          text:"¡Rellene todo los Campos!", 
+          icon:"warning", 
+          buton:"OK!", 
+        });
+      
+      }
+      const mostrarAlertaFecha =() =>{
+
+        swal({
+          title:"¡Ocurrio un error!", 
+          text:"¡La fecha de ingreso no puede ser mayor o igual a la fecha de salida!", 
+          icon:"warning", 
+          buton:"OK!", 
+        });
+      
+      }
+      
+
+      const mostrarAlertaExito =() =>{
+
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Equipo Guardado Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './desktopView';
+        });
+        
+      }
     
     const handleSubmit = event => {
         event.preventDefault();
         if (!COD_ESTACION || !IMAGEN || !MARCA || !FECHA_INGRESO || !ESTADO || !FECHA_SALIDA) {
-            alert("Por favor, llene todos los campos");
+            mostrarAlerta();
             return;
         }
         const ingreso = new Date(FECHA_INGRESO).getTime();
         const salida = new Date(FECHA_SALIDA).getTime();
         if (ingreso >= salida) {
-            alert("La fecha de ingreso no puede ser mayor o igual a la fecha de salida");
+            mostrarAlertaFecha();
             return;
         }
         const data = { COD_ESTACION, IMAGEN, MARCA, FECHA_INGRESO, ESTADO, FECHA_SALIDA };
@@ -77,8 +113,9 @@ function DesktopForm() {
                 setFECHA_SALIDA('');
                 setCOD_ESTACION('');
                 setIMAGEN('');
-                alert("Agregado con exito")
-                window.location.href = './desktopView';
+                mostrarAlertaExito();
+                
+                
             });
     }
 
@@ -91,11 +128,11 @@ function DesktopForm() {
             });
     }, []);
 
-
     const estaciones = [];
+    estaciones.push(<option className="form-control input-group" >Seleccionar Estacion</option>)
     for (const estacion of data) {
 
-        estaciones.push(<option className="form-control input-group">{estacion.COD_ESTACION}</option>)
+        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE}</option>)
     }
 
 
@@ -195,11 +232,11 @@ function DesktopForm() {
                                                     <input type="file" className="custom-file" id="customFile" name="IMAGEN" value={IMAGEN} onChange={handleChange} />
                                                 </div>
 
-                                                <div class="col-lg-4 mb-4">
+                                                <div className="col-lg-6 mb-4">
                                                     <label htmlFor="customFile">Seleccione el puesto de trabajo:</label>
                                                     <br />
-                                                    <select className="form-control input-group" id="customFile" name="COD_ESTACION" value={COD_ESTACION} onChange={handleChange}>
-                                                        {estaciones}
+                                                    <select type="text" className="form-control input-group" id="floatingInput" name="COD_ESTACION" value={COD_ESTACION} onChange={handleChange} >
+                                                            {estaciones}
                                                     </select>
 
                                                 </div>

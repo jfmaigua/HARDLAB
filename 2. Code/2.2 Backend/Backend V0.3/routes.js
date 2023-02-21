@@ -16,6 +16,7 @@ routes.get('/detalleequipo', (req, res)=>{
                 return;
             }
             
+            
             res.json(rows)
         })
     })

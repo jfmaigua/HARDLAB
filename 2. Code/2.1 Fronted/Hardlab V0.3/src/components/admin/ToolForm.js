@@ -1,10 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
 
 export function ToolForm() {
 
     const cookies = new Cookies();
+
+    const mostrarAlerta =() =>{
+
+        swal({
+          title:"¡Información Incompleta!", 
+          text:"¡Rellene todo los Campos!", 
+          icon:"warning", 
+          buton:"OK!", 
+        });
+      
+      }
+
+      const mostrarAlertaExito =() =>{
+
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Herramienta Guardada Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './toolUpdate';
+        });
+        
+      }
 
 
     const handleLogout = () => {
@@ -27,6 +53,7 @@ export function ToolForm() {
     const [CANTIDAD, setCantidad] = useState('');
     const [IMAGEN, setImagen] = useState('');
 
+
     const handleChange = event => {
         if (event.target.name === 'MARCA') {
             setMarca(event.target.value);
@@ -45,26 +72,31 @@ export function ToolForm() {
         }
         if (event.target.name === 'COD_ESTACION') {
             setCOD_ESTACION(event.target.value);
+           
         }
     }
 
     const handleSubmit = event => {
         event.preventDefault();
         if (!COD_ESTACION || !IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS) {
-            alert("Por favor, llene todos los campos");
+            //alert("Por favor, llene todos los campos");
+            mostrarAlerta();
             return;
         }
         event.preventDefault();
-        const data = { COD_ESTACION, IMAGEN, NOMBRE, MARCA, CANTIDAD, CODIGO_BARRAS };
+        const dataEquipo = { COD_ESTACION, IMAGEN, NOMBRE, MARCA, CANTIDAD, CODIGO_BARRAS };
         console.log(data)
-        axios.post('http://localhost:4000/api/herramienta', data)
+        axios.post('http://localhost:4000/api/herramienta', dataEquipo)
             .then(res => {
                 console.log(res);
                 console.log(res.data);
-                alert("Ageagado con exito")
-                window.location.href = './toolUpdate';
+                //alert("Ageagado con exito")
+                mostrarAlertaExito();
+                //window.location.href = './toolUpdate';
+                
                 
             })
+            
     }
 
     useEffect(() => {
@@ -77,9 +109,12 @@ export function ToolForm() {
     }, []);
 
     const estaciones = [];
-    for (const estacion of data) {        
-        estaciones.push(<option className="form-control input-group">{estacion.COD_ESTACION}</option>)
+    estaciones.push(<option className="form-control input-group" >Seleccionar Estacion</option>)
+    for (const estacion of data) {
+
+        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE}</option>)
     }
+
 
     return (
 
@@ -176,8 +211,8 @@ export function ToolForm() {
                                         <div className="col-lg-6 mb-4">
                                             <label htmlFor="customFile">Seleccione el puesto de trabajo:</label>
                                             <br />
-                                            <select className="form-control input-group" id="customFile" name="COD_ESTACION" value={COD_ESTACION} onChange={handleChange}>
-                                                {estaciones}
+                                            <select type="text" className="form-control input-group" id="floatingInput" name="COD_ESTACION" value={COD_ESTACION} onChange={handleChange} >
+                                                    {estaciones}
                                             </select>
 
                                         </div>

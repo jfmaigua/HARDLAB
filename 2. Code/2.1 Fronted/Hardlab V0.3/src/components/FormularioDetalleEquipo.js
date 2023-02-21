@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
 
 function FormularioDetalleEquipo() {
 
@@ -36,6 +37,31 @@ function FormularioDetalleEquipo() {
     
         window.location.href = './';
       };
+
+      const mostrarAlerta =() =>{
+
+        swal({
+          title:"¡Información Incompleta!", 
+          text:"¡Rellene todo los Campos!", 
+          icon:"warning", 
+          buton:"OK!", 
+        });
+      
+      }
+
+      const mostrarAlertaExito =() =>{
+
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Detalle de Equipo Guardado Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './equipos-usuario';
+        });
+        
+      }
 
     const handleChange = event => {
 
@@ -95,6 +121,11 @@ function FormularioDetalleEquipo() {
 
     const handleSubmit = event => {
         event.preventDefault();
+        if (!COD_EQUIPO || !MAIN_BOARD || !SERIAL || !PROCESADOR || !RAM || !DISCO_DURO||!UNIDAD_CD||!PUERTOS_PCI_EXPRESS||!PUERTOS_USB||!PUERTOS_PS2||!UNIDAD_DISQUETE||!TARJETA_RED||!TARJETA_VIDEO||!PUERTOS_VGA||!TARJETA_SONIDO||!PUERTOS_PCI) {
+            mostrarAlerta();
+            return;
+        }
+
         const dataDetalle = { COD_EQUIPO, MAIN_BOARD, SERIAL, PROCESADOR, RAM, DISCO_DURO, UNIDAD_CD, PUERTOS_PCI_EXPRESS, PUERTOS_USB, PUERTOS_PS2, UNIDAD_DISQUETE, TARJETA_RED, TARJETA_VIDEO, PUERTOS_VGA, TARJETA_SONIDO, COMENTARIOS, PUERTOS_PCI };
         console.log(dataDetalle.COD_EQUIPO)
         axios.post('http://localhost:4000/api/detalleequipo', dataDetalle)
@@ -102,14 +133,14 @@ function FormularioDetalleEquipo() {
                 console.log(res);
                 console.log(res.data);
                 setEquipo(res.data);
-                alert("Ageagado con exito")
-                window.location.href = './';
+                mostrarAlertaExito();
+                
             })            
             console.log(equipo);        
     }
 
     useEffect(() => {
-        fetch(`http://localhost:4000/api/equipo/${cookies.get('estacionTrabajo')}`)
+        fetch("http://localhost:4000/api/equipo")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -118,9 +149,10 @@ function FormularioDetalleEquipo() {
     }, []);
 
     const estaciones = [];
+    estaciones.push(<option className="form-control input-group" >Seleccionar Equipo</option>)
     for (const estacion of data) {
 
-        estaciones.push(<option className="form-control input-group">{estacion.COD_EQUIPO}</option>)
+        estaciones.push(<option className="form-control input-group" value={estacion.COD_EQUIPO}>{estacion.MARCA}</option>)
     }
 
 
@@ -165,6 +197,12 @@ function FormularioDetalleEquipo() {
                                         src="img/undraw_profile.svg" alt='imagen'/>
                                 </a>
                             </li>
+                            {/* Nav Item - Cerrar Sesion */}
+
+                            <li  className="nav-item dropdown no-arrow">
+                                <a  className="nav-link dropdown-toggle" href="/" onClick={handleLogout} id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  > Cerrar Sesión</a>
+                            </li>
                         </ul>
                     </nav>
 
@@ -175,7 +213,7 @@ function FormularioDetalleEquipo() {
 
                         <div className="card shadow mb-4">
                             <div className="card-header py-3">
-                                <h6 className="m-0 font-weight-bold text-primary">Agregar Detalle Equpo</h6>
+                                <h6 className="m-0 font-weight-bold text-primary">Agregar Detalle Equipo</h6>
                             </div>
                             <form onSubmit={handleSubmit}>
                                 <div className="card shadow mb-4">
@@ -184,13 +222,13 @@ function FormularioDetalleEquipo() {
                                     </div>
                                     <div className='card-body'>
                                         <br />
-                                        <div className='row'>
-                                            <div className="col-lg-4 mb-4 nav-item">
-                                                <label htmlFor="floatingInput">Equipo</label>
-                                                <select type="text" className="form-control input-group" id="floatingInput" name="COD_EQUIPO" value={COD_EQUIPO} onChange={handleChange} >
+                                        <div className="col-lg-6 mb-4">
+                                            <label htmlFor="customFile">Seleccione Equipo:</label>
+                                            <br />
+                                            <select type="text" className="form-control input-group" id="floatingInput" name="COD_EQUIPO" value={COD_EQUIPO} onChange={handleChange} >
                                                     {estaciones}
-                                                </select>
-                                            </div>
+                                            </select>
+
                                         </div>
                                         <div className='row'>
                                             <div className="col-lg-4 mb-4 nav-item">

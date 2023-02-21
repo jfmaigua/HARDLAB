@@ -2,6 +2,7 @@ import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal,Form } from 'react-bootstrap';
+import swal from 'sweetalert';
 
 function EditForm({ data, handleSave }) {
     const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function EditForm({ data, handleSave }) {
         CANTIDAD: data.CANTIDAD,
         CODIGO_BARRAS: data.CODIGO_BARRAS,
     });
+
 
     const handleChange = (e) => {
         setFormData({
@@ -57,6 +59,42 @@ function ToolsTable() {
   const [editData, setEditData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const mostrarAlertaErrror = (id)=>{
+    swal({
+        title: "Eliminar?",
+        text: "Esta seguro de que desea eliminar esta herramienta!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          swal("Herramienta eliminada exitosamente!", {
+            icon: "success",
+            
+          });
+          handleDelete(id)
+        } else {
+          swal("Herramienta no Eliminada!");
+        }
+      });
+  }
+
+  const mostrarAlertaExito =() =>{
+
+    swal({
+      title:"¡Exitoso!", 
+      text:"¡Herramienta Guardada Exitosamente!", 
+      icon:"success", 
+      buton:true, 
+    })
+    .then((value)=>{
+        window.location.href = './toolUpdate';
+    });
+    
+  
+  }
   
   useEffect(() => {
     axios.get('http://localhost:4000/api/herramienta')
@@ -95,6 +133,7 @@ function ToolsTable() {
             });
             setData(updatedData);
             setIsModalOpen(false);
+            mostrarAlertaExito();
         })
         .catch(err => {
             console.log(err);
@@ -116,7 +155,7 @@ function ToolsTable() {
       <thead>
         <tr>
           <th>#</th>
-          <th>Imagen</th>
+          <th>Estacion De Trabajo</th>
           <th>Nombre</th>
           <th>Marca</th>
           <th>Cantidad</th>
@@ -155,7 +194,7 @@ function ToolsTable() {
             <td>{data.CANTIDAD}</td>
             <td>{data.CODIGO_BARRAS}</td>
             <td>
-                <button onClick={() => handleDelete(data.COD_ESTACION)} className='btn btn-danger btn-icon-split'>Eliminar</button>
+                <button onClick={() => mostrarAlertaErrror(data.COD_HERRAMIENTA)} className='btn btn-danger btn-icon-split'>Eliminar</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button onClick={() => handleEdit(data)} className='btn btn-warning btn-icon-split'>Editar</button>
             </td>

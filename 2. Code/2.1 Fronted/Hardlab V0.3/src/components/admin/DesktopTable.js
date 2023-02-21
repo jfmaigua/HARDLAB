@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Modal, Form } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { Portal } from 'react-portal';
+import swal from 'sweetalert';
 
 
 function EditForm({ data, handleSave }) {
@@ -10,7 +11,7 @@ function EditForm({ data, handleSave }) {
         COD_EQUIPO: data.COD_EQUIPO,
         COD_ESTACION: data.COD_ESTACION,
         MARCA: data.MARCA,
-        FECHA_ENTRADA: data.FECHA_INGRESO,
+        FECHA_INGRESO: data.FECHA_INGRESO,
         FECHA_SALIDA: data.FECHA_SALIDA,
         ESTADO: data.ESTADO
     });
@@ -24,13 +25,13 @@ function EditForm({ data, handleSave }) {
 
     return (
         <Form>
-            <Form.Group controlId="formCOD_HERRAMIENTA">
+            <Form.Group controlId="formCOD_EQUIPO">
                 <Form.Label>Código de Equipo</Form.Label>
                 <Form.Control type="text" name="COD_EQUIPO" value={formData.COD_EQUIPO} onChange={handleChange} disabled />
             </Form.Group>
             <Form.Group controlId="formCOD_ESTACION">
                 <Form.Label>Código de estación</Form.Label>
-                <Form.Control type="text" name="COD_ESTACION" value={formData.COD_ESTACION} onChange={handleChange} />
+                <Form.Control type="text" name="COD_ESTACION" value={formData.COD_ESTACION} onChange={handleChange}  disabled/>
             </Form.Group>
             <Form.Group controlId="formMARCA">
                 <Form.Label>Marca</Form.Label>
@@ -38,7 +39,7 @@ function EditForm({ data, handleSave }) {
             </Form.Group>
             <Form.Group controlId="formFECHA_ENTRADA">
                 <Form.Label>Fecha de entrada</Form.Label>
-                <Form.Control type="date" name="FECHA_INGRESO" value={formData.FECHA_ENTRADA} onChange={handleChange} />
+                <Form.Control type="date" name="FECHA_INGRESO" value={formData.FECHA_INGRESO} onChange={handleChange} />
             </Form.Group>
             <Form.Group controlId="formFECHA_SALIDA">
                 <Form.Label>Fecha de salida</Form.Label>
@@ -67,6 +68,41 @@ function DesktopTable() {
         let fechaFormateada = new Date(fecha);
         return fechaFormateada.toLocaleDateString();
     }
+    const mostrarAlertaErrror = (id)=>{
+        swal({
+            title: "Eliminar?",
+            text: "Esta seguro de que desea eliminar esta herramienta!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("Equipo eliminado exitosamente!", {
+                icon: "success",
+                
+              });
+              handleDelete(id)
+            } else {
+              swal("Equipo no Eliminado!");
+            }
+          });
+      }
+    
+      const mostrarAlertaExito =() =>{
+    
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Equipo Guardado Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './toolUpdate';
+        });
+        
+      
+      }
     const handleShowDetail = (item) => {
         setSelectedItem(item);
         setShowDetail(true);
@@ -115,6 +151,7 @@ function DesktopTable() {
                 });
                 setData(updatedData);
                 setIsModalOpen(false);
+                mostrarAlertaExito(); 
             })
             .catch(err => {
                 console.log(err);
@@ -291,7 +328,7 @@ function DesktopTable() {
                 <td>{FormatearFecha(data.FECHA_SALIDA)}</td>
                 <td>{data.ESTADO}</td>
                 <td>
-                    <button onClick={() => handleDelete(data.COD_EQUIPO)} className='btn btn-danger btn-icon-split'>Eliminar</button>
+                    <button onClick={() => mostrarAlertaErrror(data.COD_EQUIPO)} className='btn btn-danger btn-icon-split'>Eliminar</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <button onClick={() => handleEdit(data)} className='btn btn-warning btn-icon-split'>Editar</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
