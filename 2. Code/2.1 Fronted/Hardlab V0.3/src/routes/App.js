@@ -20,6 +20,7 @@ import UsersView from "../pages/UsersView";
 import Error from "../components/Error";
 import ReporteEquipos from "../components/admin/Reportes/ReportesEquipos";
 import Reports from "../pages/Reports";
+import AddSalida from "../pages/AddSalida";
 
 const App = () => (
   <BrowserRouter>
@@ -44,7 +45,7 @@ const App = () => (
       <Route exact path="/error" component={Error} />
       <Route exact path="/reporte-equipo" component={ReporteEquipos} />
       <Route exact path="/reportes" component={Reports} />
-      
+      <Route exact path="/addSalida" component={AddSalida}/>      
       
     </Switch>
   </BrowserRouter>

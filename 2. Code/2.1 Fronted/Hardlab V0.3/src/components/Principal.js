@@ -66,7 +66,8 @@ function Principal() {
             <div id="collapseUtilities" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div className="bg-white py-2 collapse-inner rounded">
                 <Link className="collapse-item" to="/desktopRegister">Agregar</Link>     
-                <Link className="collapse-item" to="/addDetail">Agregar Detalle</Link>
+                <Link className="collapse-item" to="/addDetail">Agregar Detalle</Link>                                   
+                <Link className="collapse-item" to="/addSalida">Agregar Peticion</Link>
                 <Link className="collapse-item" to="/desktopView">Ver</Link>          
               </div>
             </div>

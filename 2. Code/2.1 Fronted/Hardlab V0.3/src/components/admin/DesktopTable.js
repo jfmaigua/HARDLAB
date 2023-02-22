@@ -31,7 +31,7 @@ function EditForm({ data, handleSave }) {
             </Form.Group>
             <Form.Group controlId="formCOD_ESTACION">
                 <Form.Label>Código de estación</Form.Label>
-                <Form.Control type="text" name="COD_ESTACION" value={formData.COD_ESTACION} onChange={handleChange}  disabled/>
+                <Form.Control type="text" name="COD_ESTACION" value={formData.COD_ESTACION} onChange={handleChange} disabled />
             </Form.Group>
             <Form.Group controlId="formMARCA">
                 <Form.Label>Marca</Form.Label>
@@ -62,47 +62,48 @@ function DesktopTable() {
     const [isEditing, setIsEditing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
+    const [showPeticion, setShowPeticion] = useState(false);
     const [selectedItem, setSelectedItem] = useState({});
 
     function FormatearFecha(fecha) {
         let fechaFormateada = new Date(fecha);
         return fechaFormateada.toLocaleDateString();
     }
-    const mostrarAlertaErrror = (id)=>{
+    const mostrarAlertaErrror = (id) => {
         swal({
             title: "Eliminar?",
             text: "Esta seguro de que desea eliminar esta herramienta!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-              swal("Equipo eliminado exitosamente!", {
-                icon: "success",
-                
-              });
-              handleDelete(id)
-            } else {
-              swal("Equipo no Eliminado!");
-            }
-          });
-      }
-    
-      const mostrarAlertaExito =() =>{
-    
-        swal({
-          title:"¡Exitoso!", 
-          text:"¡Equipo Guardado Exitosamente!", 
-          icon:"success", 
-          buton:true, 
         })
-        .then((value)=>{
-            window.location.href = './toolUpdate';
-        });
-        
-      
-      }
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Equipo eliminado exitosamente!", {
+                        icon: "success",
+
+                    });
+                    handleDelete(id)
+                } else {
+                    swal("Equipo no Eliminado!");
+                }
+            });
+    }
+
+    const mostrarAlertaExito = () => {
+
+        swal({
+            title: "¡Exitoso!",
+            text: "¡Equipo Guardado Exitosamente!",
+            icon: "success",
+            buton: true,
+        })
+            .then((value) => {
+                window.location.href = './toolUpdate';
+            });
+
+
+    }
     const handleShowDetail = (item) => {
         setSelectedItem(item);
         setShowDetail(true);
@@ -110,6 +111,17 @@ function DesktopTable() {
 
     const handleCloseDetail = () => {
         setShowDetail(false);
+        setSelectedItem("")
+    }
+
+
+    const handleShowPeticion = (item) => {
+        setSelectedItem(item);
+        setShowPeticion(true);
+    }
+
+    const handleClosePeticion = () => {
+        setShowPeticion(false);
         setSelectedItem("")
     }
 
@@ -126,7 +138,7 @@ function DesktopTable() {
     const handleDelete = (id) => {
         axios.delete(`http://localhost:4000/api/equipo/${id}`)
             .then(res => {
-                const updatedData = data.filter(item => item.COD_EQUIPO !== id);                
+                const updatedData = data.filter(item => item.COD_EQUIPO !== id);
                 setData(updatedData);
             })
             .catch(err => {
@@ -151,7 +163,7 @@ function DesktopTable() {
                 });
                 setData(updatedData);
                 setIsModalOpen(false);
-                mostrarAlertaExito(); 
+                mostrarAlertaExito();
             })
             .catch(err => {
                 console.log(err);
@@ -162,7 +174,7 @@ function DesktopTable() {
         setIsModalOpen(false);
         setIsEditing(false);
     };
-    
+
     function DetailModal({ show, onClose, item }) {
         const [detailData, setDetailData] = useState({});
 
@@ -273,7 +285,94 @@ function DesktopTable() {
             </div >
         );
     };
+    function PeticionModal({ show, onClose, item }) {
+        const [detailData, setDetailData] = useState({});
 
+        useEffect(() => {
+            axios.get(`http://localhost:4000/api/equipoPeticion/${item}`)
+                .then(res => {
+                    const detail = res.data.map(dataItem => {
+                        setDetailData(dataItem);
+                    })
+                })
+                .then(() => setShowDetail(true))
+                .catch((error) => {
+                    setShowDetail(false);
+                });
+        }, [item]);
+
+        return (
+            <div>
+                {detailData &&
+                    <Portal>
+                        <Modal show={show} onHide={onClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title className='font-weight-bold text-primary'>Componentes a solicitar</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div className='row'>
+                                    <div className="col-lg-4 mb-4 ">
+                                        <span className='font-weight-bold'>Serial</span>
+                                        <p>{detailData.SERIAL}</p>
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>RAM</span>
+                                    <p>{detailData.RAM}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>DISCO</span>
+                                    <p>{(detailData.DISCO)}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Pantalla</span>
+                                    <p>{(detailData.PANTALLA)}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Touchpad</span>
+                                    <p>{detailData.TOUCHPAD}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Serie de bateria</span>
+                                    <p>{detailData.BATERIA_SERIE}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Teclado</span>
+                                    <p>{detailData.TECLADO}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Bisagras</span>
+                                    <p>{detailData.BISAGRAS}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Marco de Pantalla</span>
+                                    <p>{detailData.MARCO_PANTALLA}</p>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Ventilador</span>
+                                    <p>{detailData.VENTILADOR}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Case Disco Duro</span>
+                                    <p>{detailData.CASE_DISCO_DURO}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Case Base Cover </span>
+                                    <p>{detailData.CASE_BASE_COVER}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Comentarios</span>
+                                    <p>{detailData.COMENTARIOS}</p>
+                                </div>
+                            </Modal.Body>
+                        </Modal>
+                    </Portal>
+                }
+            </div >
+        );
+    };
 
     return (
         <div className="card shadow mb-4">
@@ -296,7 +395,7 @@ function DesktopTable() {
                         </thead>
                         <tbody>
                             {data.map(item => (
-                                <TableRow key={item.COD_EQUIPO} data={item} handleDelete={handleDelete} handleEdit={handleEdit} handleShowDetail={handleShowDetail} />
+                                <TableRow key={item.COD_EQUIPO} data={item} handleDelete={handleDelete} handleEdit={handleEdit} handleShowDetail={handleShowDetail} handleShowPeticion={handleShowPeticion} />
                             ))}
 
                         </tbody>
@@ -313,12 +412,13 @@ function DesktopTable() {
             </Modal>
 
             <DetailModal show={showDetail} onClose={handleCloseDetail} item={selectedItem} />
+            <PeticionModal show={showPeticion} onClose={handleClosePeticion} item={selectedItem} />
         </div>
     );
 
 
 
-    function TableRow({ data, handleDelete, handleEdit, handleShowDetail }) {
+    function TableRow({ data, handleDelete, handleEdit, handleShowDetail, handleShowPeticion }) {
         return (
             <tr>
                 <td>{data.COD_EQUIPO}</td>
@@ -329,10 +429,12 @@ function DesktopTable() {
                 <td>{data.ESTADO}</td>
                 <td>
                     <button onClick={() => mostrarAlertaErrror(data.COD_EQUIPO)} className='btn btn-danger btn-icon-split'>Eliminar</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;
                     <button onClick={() => handleEdit(data)} className='btn btn-warning btn-icon-split'>Editar</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;
                     <button onClick={() => handleShowDetail(data.COD_EQUIPO)} className='btn btn-info'>Ver Detalle</button>
+                    &nbsp;&nbsp;
+                    <button onClick={() => handleShowPeticion(data.COD_EQUIPO)} className='btn btn-info'>Ver Petición</button>
                 </td>
 
             </tr>
