@@ -235,8 +235,6 @@ routes.get('/equipo/:COD_ESTACION', (req, res)=>{
     })
 })
 
-
-
 routes.post('/equipo', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -292,6 +290,45 @@ routes.get('/equipoDetalle/:COD_EQUIPO', (req, res)=>{
             if(rows.length === 0) return res.status(404).send({error: 'No se encontraron resultados para esta consulta'})
             console.log(rows)
             res.json(rows)
+        })
+    })
+})
+
+routes.get('/equipoPeticion/:COD_EQUIPO', (req, res)=>{
+    const COD_EQUIPO = req.params.COD_EQUIPO;
+
+    req.getConnection((err, conn)=>{
+        if(err) return res.status(500).send({error: 'Error de conexión a la base de datos'})
+
+        const query = `SELECT * FROM equipo INNER JOIN detalleequipo ON equipo.COD_EQUIPO = detalleequipo.COD_EQUIPO JOIN salida_peticion ON salida_peticion.SERIAL_EQUIPO=detalleequipo.SERIAL where equipo.COD_EQUIPO=?`;
+        conn.query(query, [COD_EQUIPO], (err, rows)=>{
+            if(err) return res.status(500).send({error: 'Error en la consulta a la base de datos'})
+
+            if(rows.length === 0) return res.status(404).send({error: 'No se encontraron resultados para esta consulta'})
+            console.log(rows)
+            res.json(rows)
+        })
+    })
+})
+
+routes.get('/equipoAlta', (req, res)=>{
+
+    req.getConnection((err, conn)=>{
+        if(err) return res.status(500).send({error: 'Error de conexión a la base de datos'})
+        const query = `SELECT * FROM equipo INNER JOIN detalleequipo ON equipo.COD_EQUIPO = detalleequipo.COD_EQUIPO WHERE equipo.ESTADO="Alta"`;
+        conn.query(query, (err, rows)=>{
+            if(err) return res.status(500).send({error: 'Error en la consulta a la base de datos'})
+            res.json(rows)
+        })
+    })
+})
+
+routes.post('/peticion', (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('INSERT INTO salida_peticion set ?', [req.body], (err, rows)=>{
+            if(err) return res.send(err)
+            res.send('El equipo fue añadido exitosamente!')
         })
     })
 })
