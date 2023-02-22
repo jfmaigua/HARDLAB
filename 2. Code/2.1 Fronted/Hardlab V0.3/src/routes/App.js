@@ -18,6 +18,8 @@ import StationsView from "../pages/StationsView";
 import AddUser from "../pages/AddUser";
 import UsersView from "../pages/UsersView";
 import Error from "../components/Error";
+import ReporteEquipos from "../components/admin/Reportes/ReportesEquipos";
+import Reports from "../pages/Reports";
 
 const App = () => (
   <BrowserRouter>
@@ -40,6 +42,10 @@ const App = () => (
       <Route exact path="/addUser" component={AddUser} />
       <Route exact path="/viewUser" component={UsersView} />
       <Route exact path="/error" component={Error} />
+      <Route exact path="/reporte-equipo" component={ReporteEquipos} />
+      <Route exact path="/reportes" component={Reports} />
+      
+      
     </Switch>
   </BrowserRouter>
 );

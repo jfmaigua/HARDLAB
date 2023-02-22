@@ -104,18 +104,19 @@ function Principal() {
 
           {/*  {/* Nav Item - Utilities Collapse Menu */}
           <li className="nav-item">
-            <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapseStation"
-              aria-expanded="true" aria-controls="collapseStation">
+            <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapseReport"
+              aria-expanded="true" aria-controls="collapseReport">
               <i className="fas fa-fw fa-wrench"></i>
-              <span>Reporte</span>
+              <span>Reportes</span>
             </a>            
-            <div id="collapseStation" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div className="bg-white py-2 collapse-inner rounded"> 
-                <Link className="collapse-item" to="/">Componentes Dañados </Link>    
-                <Link className="collapse-item" to="/">Cotizacion Reparación</Link>            
+            <div id="collapseReport" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+              <div className="bg-white py-2 collapse-inner rounded">  
+                <Link className="collapse-item" to="/reportes">Ver</Link>          
               </div>
             </div>
-          </li>          
+          </li>
+
+                
 
         </ul>
       </div>

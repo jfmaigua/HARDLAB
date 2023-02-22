@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Modal, Form } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
+import swal from 'sweetalert';
 
 function EditForm({ data, handleSave }) {
     const [formData, setFormData] = useState({
@@ -51,16 +52,54 @@ function StationTable() {
             });
     }, []);
 
+    
+
+    
+      const mostrarAlertaExito =() =>{
+    
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Estacion de Trabajo Guardada Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './toolUpdate';
+        });
+        
+      
+      }
+
     const handleDelete = (id) => {
-        axios.delete( `http://localhost:4000/api/estacion_trabajo/${id}`)
-            .then(res => {
-                const updatedData = data.filter(item => item.COD_ESTACION !== id);
-                console.log(updatedData)
-                setData(updatedData);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        
+            swal({
+                title: "Eliminar?",
+                text: "Esta seguro de que desea eliminar esta Estacion de Trabajo!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                  swal("Estacion de Trabajo eliminada exitosamente!", {
+                    icon: "success",
+                    
+                  });
+                  axios.delete( `http://localhost:4000/api/estacion_trabajo/${id}`)
+                  .then(res => {
+                      const updatedData = data.filter(item => item.COD_ESTACION !== id);
+                      console.log(updatedData)
+                      setData(updatedData);
+                  })
+                  .catch(err => {
+                      console.log(err);
+                  });
+                } else {
+                  swal("Estacion de Trabajo no Eliminada!");
+                }
+              });
+          
+       
     }
 
     const handleEdit = (item) => {
@@ -80,6 +119,7 @@ function StationTable() {
                 });
                 setData(updatedData);
                 setIsModalOpen(false);
+                mostrarAlertaExito();
             })
             .catch(err => {
                 console.log(err);

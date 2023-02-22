@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
 
 
 function FormularioEquipo() {
@@ -51,6 +52,16 @@ function FormularioEquipo() {
 
     const handleSubmit = event => {
         event.preventDefault();
+        if (!COD_ESTACION || !IMAGEN || !MARCA || !FECHA_INGRESO || !ESTADO || !FECHA_SALIDA) {
+            mostrarAlerta();
+            return;
+        }
+        const ingreso = new Date(FECHA_INGRESO).getTime();
+        const salida = new Date(FECHA_SALIDA).getTime();
+        if (ingreso >= salida) {
+            mostrarAlertaFecha();
+            return;
+        }
         const data = { COD_ESTACION, IMAGEN, MARCA, FECHA_INGRESO, ESTADO, FECHA_SALIDA };
         axios.post('http://localhost:4000/api/equipo', data)
             .then(res => {
@@ -61,10 +72,47 @@ function FormularioEquipo() {
                 setFECHA_SALIDA('');
                 setCOD_ESTACION('');
                 setIMAGEN('');
-                alert("Ageagado con exito")
-                window.location.href = './equipos-usuario';
+                mostrarAlertaExito();
+                
             });
     }
+
+    const mostrarAlerta =() =>{
+
+        swal({
+          title:"¡Información Incompleta!", 
+          text:"¡Rellene todo los Campos!", 
+          icon:"warning", 
+          buton:"OK!", 
+        });
+      
+      }
+      const mostrarAlertaFecha =() =>{
+
+        swal({
+          title:"¡Ocurrio un error!", 
+          text:"¡La fecha de ingreso no puede ser mayor o igual a la fecha de salida!", 
+          icon:"warning", 
+          buton:"OK!", 
+        });
+      
+      }
+      
+
+      const mostrarAlertaExito =() =>{
+
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Equipo Guardado Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './equipos-usuario';
+        });
+        
+      }
+    
 
 
 

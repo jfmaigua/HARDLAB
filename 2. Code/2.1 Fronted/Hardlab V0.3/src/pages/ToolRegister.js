@@ -3,12 +3,15 @@ import ToolForm from '../components/admin/ToolForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Error from "../components/Error"
+import Error from "../components/Error";
+
 
 function ToolRegister() {
     const cookies = new Cookies();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState("");
+
+
 
     let history = useHistory()
     function handleClick() {
