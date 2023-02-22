@@ -90,6 +90,7 @@ function DesktopTable() {
             });
     }
 
+
     const mostrarAlertaExito = () => {
 
         swal({
@@ -101,9 +102,21 @@ function DesktopTable() {
             .then((value) => {
                 window.location.href = './toolUpdate';
             });
-
-
     }
+
+    const mostrarAlertaNoSeEncuentra = () => {
+
+        swal({
+            title: "¡ERROR!",
+            text: "¡El equipo seleccionado no cuenta con esa información!",
+            icon: "warning",
+            buton: true,
+        })
+            .then((value) => {
+                window.location.href = './desktopView';
+            });
+    }
+
     const handleShowDetail = (item) => {
         setSelectedItem(item);
         setShowDetail(true);
@@ -185,9 +198,9 @@ function DesktopTable() {
                         setDetailData(dataItem);
                     })
                 })
-                .then(() => setShowDetail(true))
                 .catch((error) => {
                     setShowDetail(false);
+                    mostrarAlertaNoSeEncuentra();
                 });
         }, [item]);
 
@@ -295,9 +308,9 @@ function DesktopTable() {
                         setDetailData(dataItem);
                     })
                 })
-                .then(() => setShowDetail(true))
                 .catch((error) => {
-                    setShowDetail(false);
+                    setShowPeticion(false);
+                    mostrarAlertaNoSeEncuentra();
                 });
         }, [item]);
 
@@ -410,9 +423,8 @@ function DesktopTable() {
                     <EditForm data={editData} handleSave={handleSave}></EditForm>
                 </Modal.Body>
             </Modal>
-
-            <DetailModal show={showDetail} onClose={handleCloseDetail} item={selectedItem} />
-            <PeticionModal show={showPeticion} onClose={handleClosePeticion} item={selectedItem} />
+            {showPeticion && selectedItem && <PeticionModal show={showPeticion} onClose={handleClosePeticion} item={selectedItem} />}
+            {showDetail && <DetailModal show={showDetail} onClose={handleCloseDetail} item={selectedItem} />}
         </div>
     );
 
