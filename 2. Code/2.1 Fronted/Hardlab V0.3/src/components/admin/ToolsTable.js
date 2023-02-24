@@ -188,7 +188,7 @@ function ToolsTable() {
     return (
         <tr>
             <td>{data.COD_HERRAMIENTA}</td>
-            <td>{data.COD_ESTACION}</td>
+            <td>{data.NOMBRE_ESTACION}</td>
             <td>{data.NOMBRE}</td>
             <td>{data.MARCA}</td>
             <td>{data.CANTIDAD}</td>

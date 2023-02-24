@@ -43,7 +43,7 @@ function DesktopForm() {
   
       window.location.href = './';
     };
-    const [NOMBRE, setNOMBRE] = useState('');
+    const [NOMBRE_ESTACION, setNOMBRE] = useState('');
 
     const handleChange = event => {
         if (event.target.name === 'NOMBRE') {
@@ -53,12 +53,12 @@ function DesktopForm() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        if (!NOMBRE) {
+        if (!NOMBRE_ESTACION) {
             mostrarAlerta();
             return;
         }
         event.preventDefault();
-        const data = { NOMBRE };
+        const data = { NOMBRE_ESTACION };
         console.log(data)
         axios.post('http://localhost:4000/api/estacion_trabajo', data)
             .then(res => {
@@ -134,7 +134,7 @@ function DesktopForm() {
                                             <div className='row'>
                                                 <div className="col-lg-4 mb-4 " >
                                                     <label htmlFor="floatingInput">Nombre</label>
-                                                    <input type="text" className="form-control input-group" id="floatingInput" name="NOMBRE" value={NOMBRE} onChange={handleChange} />
+                                                    <input type="text" className="form-control input-group" id="floatingInput" name="NOMBRE" value={NOMBRE_ESTACION} onChange={handleChange} />
                                                 </div>
                                             </div>
                                         </div>

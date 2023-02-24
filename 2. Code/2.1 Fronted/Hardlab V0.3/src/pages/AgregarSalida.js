@@ -4,8 +4,9 @@ import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Error from "../components/Error";
+import SalidasForm from '../components/admin/SalidasForm';
 
-function AddDetail() {
+function AgregarSalida() {
     const cookies = new Cookies();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState("");
@@ -30,7 +31,7 @@ function AddDetail() {
                         <Principal />
                     </div>
                     <div className="col-10">
-                        <DetailForm />
+                        <SalidasForm />
                     </div>
                 </div>
             </div>
@@ -42,4 +43,4 @@ function AddDetail() {
   );
 }
 
-export default AddDetail;
+export default AgregarSalida;

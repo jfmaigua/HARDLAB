@@ -1,5 +1,5 @@
 import PrincipalUser from '../components/PrincipalUser';
-import FormularioDetalleEquipo from '../components/FormularioDetalleEquipo';
+import FormularioDetalleEquipo from '../components/FormularioSalida';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";

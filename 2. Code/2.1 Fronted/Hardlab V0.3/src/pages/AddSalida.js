@@ -1,5 +1,5 @@
 import Principal from '../components/Principal';
-import SalidasForm from '../components/admin/SalidasForm';
+import FormularioSalida from '../components/FormularioSalida';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -23,7 +23,7 @@ function AddSalida() {
     }, []);
     return (
         <div>
-            {isAuthenticated && userRole === '1' ? (
+            {isAuthenticated && userRole === '2' ? (
             <div>
                 <div className="row">
                     <div className="col-2">
@@ -31,7 +31,7 @@ function AddSalida() {
                     </div>
                     <div className="col-10">
                         .   
-                        <SalidasForm />
+                        <FormularioSalida />
                     </div>
                 </div>
             </div>

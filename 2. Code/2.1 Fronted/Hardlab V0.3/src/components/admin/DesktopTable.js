@@ -248,31 +248,9 @@ function DesktopTable() {
                                     <span className='font-weight-bold'>Main Board</span>
                                     <p>{detailData.MAIN_BOARD}</p>
                                 </div>
-                                <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Puertos PCI</span>
-                                    <p>{detailData.PUERTOS_PCI}</p>
-                                </div>
-
-                                <div className="col-lg-4">
-                                    <span className='font-weight-bold'>Puertos PCI Express</span>
-                                    <p>{detailData.PUERTOS_PCI_EXPRESS}</p>
-                                </div>
-                                <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Puertos PS2</span>
-                                    <p>{detailData.PUERTOS_PS2}</p>
-                                </div>
                                 <div className="col-lg-4">
                                     <span className='font-weight-bold'>Puertos USB</span>
                                     <p>{detailData.PUERTOS_USB}</p>
-                                </div>
-                                <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Puertos VGA</span>
-                                    <p>{detailData.PUERTOS_VGA}</p>
-                                </div>
-
-                                <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Tarjeta de Red</span>
-                                    <p>{detailData.TARJETA_RED}</p>
                                 </div>
 
                                 <div className="col-lg-4">
@@ -282,15 +260,7 @@ function DesktopTable() {
                                 <div className="col-lg-4 ">
                                     <span className='font-weight-bold'>Tarjeta de Video</span>
                                     <p>{detailData.TARJETA_VIDEO}</p>
-                                </div>
-                                <div className="col-lg-4">
-                                    <span className='font-weight-bold'>Unidad CD</span>
-                                    <p>{detailData.UNIDAD_CD}</p>
-                                </div>
-                                <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Unidad Disquete</span>
-                                    <p>{detailData.UNIDAD_DISQUETE}</p>
-                                </div>
+                                </div>                                
                             </Modal.Body>
                         </Modal>
                     </Portal>
@@ -335,7 +305,7 @@ function DesktopTable() {
                                     <p>{detailData.RAM}</p>
                                 </div>
                                 <div className="col-lg-4">
-                                    <span className='font-weight-bold'>DISCO</span>
+                                    <span className='font-weight-bold'>Disco</span>
                                     <p>{(detailData.DISCO)}</p>
                                 </div>
                                 <div className="col-lg-4 ">
@@ -346,34 +316,10 @@ function DesktopTable() {
                                     <span className='font-weight-bold'>Touchpad</span>
                                     <p>{detailData.TOUCHPAD}</p>
                                 </div>
+                                
                                 <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Serie de bateria</span>
-                                    <p>{detailData.BATERIA_SERIE}</p>
-                                </div>
-                                <div className="col-lg-4">
                                     <span className='font-weight-bold'>Teclado</span>
                                     <p>{detailData.TECLADO}</p>
-                                </div>
-                                <div className="col-lg-4">
-                                    <span className='font-weight-bold'>Bisagras</span>
-                                    <p>{detailData.BISAGRAS}</p>
-                                </div>
-                                <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Marco de Pantalla</span>
-                                    <p>{detailData.MARCO_PANTALLA}</p>
-                                </div>
-
-                                <div className="col-lg-4">
-                                    <span className='font-weight-bold'>Ventilador</span>
-                                    <p>{detailData.VENTILADOR}</p>
-                                </div>
-                                <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Case Disco Duro</span>
-                                    <p>{detailData.CASE_DISCO_DURO}</p>
-                                </div>
-                                <div className="col-lg-4">
-                                    <span className='font-weight-bold'>Case Base Cover </span>
-                                    <p>{detailData.CASE_BASE_COVER}</p>
                                 </div>
                                 <div className="col-lg-4 ">
                                     <span className='font-weight-bold'>Comentarios</span>

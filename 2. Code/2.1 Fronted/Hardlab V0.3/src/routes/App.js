@@ -7,11 +7,10 @@ import InicioUsuario from "../pages/InicioUsuario";
 import Herramientas from "../pages/Herramientas";
 import Equipos from "../pages/EquipoUser";
 import RegistrarEquipo from "../pages/RegistrarEquipo";
-import RegistrarDetalleEquipo from "../pages/RegistrarDetalleEquipo";
 import ToolRegister from "../pages/ToolRegister";
 import ToolUpdate from "../pages/ToolUpdate";
 import DesktopRegsiter from "../pages/DesktopRegister";
-import AddDetail from "../pages/AddDetail";
+import AgregarSalida from "../pages/AgregarSalida";
 import DesktopsView from "../pages/DesktopsView";
 import RegisterStation from "../pages/RegisterStation";
 import StationsView from "../pages/StationsView";
@@ -32,11 +31,10 @@ const App = () => (
       <Route exact path="/herremientas-usuario" component={Herramientas}/>
       <Route exact path="/equipos-usuario" component={Equipos}/>
       <Route exact path="/agregar-equipo" component={RegistrarEquipo}/>
-      <Route exact path="/agregar-detalle-equipo" component={RegistrarDetalleEquipo}/>
+      <Route exact path="/agregar-peticion" component={AddSalida}/>
       <Route exact path="/toolRegister" component={ToolRegister}/>
       <Route exact path="/toolUpdate" component={ToolUpdate}/>
-      <Route exact path="/desktopRegister" component={DesktopRegsiter}/>
-      <Route exact path="/addDetail" component={AddDetail}/>
+      <Route exact path="/desktopRegister" component={DesktopRegsiter}/>    
       <Route exact path="/desktopView" component={DesktopsView}/>
       <Route exact path="/registerStation" component={RegisterStation}/>
       <Route exact path="/stationView" component={StationsView}/>
@@ -45,7 +43,7 @@ const App = () => (
       <Route exact path="/error" component={Error} />
       <Route exact path="/reporte-equipo" component={ReporteEquipos} />
       <Route exact path="/reportes" component={Reports} />
-      <Route exact path="/addSalida" component={AddSalida}/>      
+      <Route exact path="/addSalida" component={AgregarSalida }/>      
       
     </Switch>
   </BrowserRouter>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 
-function SalidasForm() {
+function FormularioSalida() {
 
 
     const [data, setData] = useState('');
@@ -232,4 +232,4 @@ return (
     </div >
 );
 }
-export default SalidasForm;
+export default FormularioSalida;

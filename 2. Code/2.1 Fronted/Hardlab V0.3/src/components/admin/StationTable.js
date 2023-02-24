@@ -172,7 +172,7 @@ function TableRow({ data, handleDelete, handleEdit }) {
     return (
         <tr>
             <td>{data.COD_ESTACION}</td>
-            <td>{data.NOMBRE}</td>
+            <td>{data.NOMBRE_ESTACION}</td>
             <td>
                 <button onClick={() => handleDelete(data.COD_ESTACION)} className='btn btn-danger btn-icon-split'>Eliminar</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
