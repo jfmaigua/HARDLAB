@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Error from "../components/Error";
+import PrincipalUser from '../components/PrincipalUser';
 
 function AddSalida() {
     const cookies = new Cookies();
@@ -27,7 +28,7 @@ function AddSalida() {
             <div>
                 <div className="row">
                     <div className="col-2">
-                        <Principal />
+                        <PrincipalUser />
                     </div>
                     <div className="col-10">
                         .   

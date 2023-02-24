@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-
+import swal from 'sweetalert';
 
 function FormularioSalida() {
 
@@ -28,6 +28,18 @@ function FormularioSalida() {
 
         window.location.href = './';
     };
+
+    const mostrarAlertaExito = () => {
+        swal({
+            title: "¡Exitoso!",
+            text: "¡Equipo Guardado Exitosamente!",
+            icon: "success",
+            buton: true,
+        })
+            .then((value) => {
+                window.location.href = './equipos-usuario';
+            });
+    }
 
     const handleChange = event => {
         if (event.target.name === 'RAM') {
@@ -65,9 +77,8 @@ function FormularioSalida() {
         const data = {SERIAL_EQUIPO, RAM, DISCO, PANTALLA, TOUCHPAD, BATERIA_SERIE, TECLADO, COMENTARIOS };
         axios.post('http://localhost:4000/api/peticion', data)
             .then(res => {
-                console.log(res.data.id);                
-                alert("Agregado con exito")
-                window.location.href = './desktopView';
+                console.log(res.data.id);              
+                mostrarAlertaExito();
             });
     }
 
