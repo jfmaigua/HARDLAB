@@ -37,7 +37,7 @@ function SalidasForm() {
             buton: true,
         })
             .then((value) => {
-                window.location.href = './equipos-usuario';
+                window.location.href = './destokpView';
             });
     }
 
