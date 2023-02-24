@@ -341,7 +341,7 @@ routes.get('/equipoAlta', (req, res) => {
 
     req.getConnection((err, conn) => {
         if (err) return res.status(500).send({ error: 'Error de conexión a la base de datos' })
-        const query = `SELECT * FROM equipo  WHERE equipo.ESTADO="Dañado"`;
+        const query = `SELECT * FROM equipo  WHERE equipo.ESTADO="Repotenciar"`;
         conn.query(query, (err, rows) => {
             if (err) return res.status(500).send({ error: 'Error en la consulta a la base de datos' })
             res.json(rows)
