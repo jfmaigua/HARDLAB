@@ -261,6 +261,11 @@ function DesktopTable() {
                                     <span className='font-weight-bold'>Tarjeta de Video</span>
                                     <p>{detailData.TARJETA_VIDEO}</p>
                                 </div>                                
+                                
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Comentarios</span>
+                                    <p>{detailData.COMENTARIOS}</p>
+                                </div>                             
                             </Modal.Body>
                         </Modal>
                     </Portal>

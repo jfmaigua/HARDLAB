@@ -11,6 +11,9 @@ function DesktopForm() {
     const cookies = new Cookies();    
     const [showPortatil, setShowPortatil] = useState(false);
     const [showEscritorio, setShowEscritorio] = useState(false);
+    const [tipoRam, settipoRam] = useState(false);
+    const [tipoDisco, settipoDisco] = useState(false);
+   
     const [equipo, setEquipo] = useState({
         COD_ESTACION: '',
         IMAGEN: '',
@@ -27,7 +30,7 @@ function DesktopForm() {
         UNIDAD_CD: '',
         PUERTOS_USB: '',
         TARJETA_VIDEO: '',
-        COMENTARIOS: ''
+        COMENTARIOS: '',
     });
 
     const handleChange = (e) => {
@@ -35,6 +38,15 @@ function DesktopForm() {
             ...equipo,
             [e.target.name]: e.target.value
         });
+    }
+
+    const handleChangeTipo = (event) => {
+        if (event.target.name === 'TIPO_DISCO') {
+            settipoDisco(event.target.value);
+        }
+        if (event.target.name === 'TIPO_RAM') {
+            settipoRam(event.target.value);
+        }
     }
 
     const handleLogout = () => {
@@ -159,6 +171,7 @@ function DesktopForm() {
         const handleSubmitEscritorio = event => {
 
             event.preventDefault();
+            setEquipo();
             axios.post('http://localhost:4000/api/equipo', equipo)
                 .then((response) => {
                     const equipoId = response.data.id;
@@ -283,7 +296,7 @@ function DesktopForm() {
                     <Form.Control type="text" name="PANTALLA" value={portatil.PANTALLA} onChange={handleChange} />
                 </Form.Group>
                 <Form.Group controlId="formMARCA">
-                    <Form.Label>Mouse</Form.Label>
+                    <Form.Label>Touchpad</Form.Label>
                     <Form.Control type="text" name="MOUSE" value={portatil.MOUSE} onChange={handleChange} />
                 </Form.Group>
                 <Form.Group controlId="formFECHA_ENTRADA">
@@ -438,13 +451,26 @@ function DesktopForm() {
                                             <div className='row'>
                                                 <div className="col-lg-4 mb-4 ">
                                                     <label htmlFor="floatingInput">RAM</label>
-                                                    <input type="text" className="form-control input-group" id="customFile" name="RAM" value={equipo.RAM} onChange={handleChange} />
+                                                    <input type="number" className="form-control input-group" id="customFile" name="RAM" value={equipo.RAM} onChange={handleChange} />
+                                                    <select type="text" className="form-control input-group" id="floatingInput" name="TIPO_RAM" value={equipo.tipoRam} onChange={handleChangeTipo} >
+                                                        <option className="form-control input-group" value="" hidden>Seleccion una opción</option>
+                                                        <option className="form-control input-group" value="SI">DDR4</option>
+                                                        <option className="form-control input-group" value="NO">DDR3</option>
+                                                        <option className="form-control input-group" value="SI">DDR2</option>
+                                                        <option className="form-control input-group" value="NO">DDR</option>
+                                                    </select>
                                                 </div>
 
                                                 <div class="col-lg-4 mb-4 ">
                                                     <label htmlFor="customFile">Disco Duro</label>
                                                     <br />
                                                     <input type="text" className="form-control input-group" id="customFile" name="DISCO_DURO" value={equipo.DISCO_DURO} onChange={handleChange} />
+                                                    <select type="text" className="form-control input-group" id="floatingInput" name="TIPO_DISCO" value={equipo.tipoDisco} onChange={handleChangeTipo} >
+                                                        <option className="form-control input-group" value="" hidden>Seleccion una opción</option>
+                                                        <option className="form-control input-group" value="SI">HHD</option>
+                                                        <option className="form-control input-group" value="NO">SSD</option>
+                                                        <option className="form-control input-group" value="NO">Externo</option>
+                                                    </select>
                                                 </div>
 
                                                 <div className="col-lg-4 mb-4">

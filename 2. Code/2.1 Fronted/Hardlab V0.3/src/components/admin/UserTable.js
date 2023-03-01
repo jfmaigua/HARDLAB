@@ -209,7 +209,6 @@ function UserTable() {
                                 <th>Apellidos</th>
                                 <th>usuario</th>
                                 <th>rol</th>
-                                <th>estacionTrabajo</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -244,7 +243,6 @@ function TableRow({ data, handleDelete, handleEdit }) {
             <td>{data.lastName}</td>
             <td>{data.username}</td>
             <td>{data.rol}</td>
-            <td>{data.estacionTrabajo}</td>
             <td>
                 <button onClick={() => mostrarAlertaErrror(data.id)} className='btn btn-danger btn-icon-split'>Eliminar</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
