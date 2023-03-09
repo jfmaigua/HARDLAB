@@ -1,11 +1,11 @@
 import Principal from '../components/Principal';
-import SalidasForm from '../components/admin/SalidasForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Error from "../components/Error";
+import Error from "../components/Error"
+import AsingToolForm from '../components/admin/AsingToolForm';
 
-function AddSalida() {
+function AsingTool() {
     const cookies = new Cookies();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState("");
@@ -21,6 +21,7 @@ function AddSalida() {
         setUserRole(cookies.get('rol'));
         }
     }, []);
+
     return (
         <div>
             {isAuthenticated && userRole === '1' ? (
@@ -30,17 +31,16 @@ function AddSalida() {
                         <Principal />
                     </div>
                     <div className="col-10">
-                        .   
-                        <SalidasForm />
+                        <AsingToolForm />
                     </div>
                 </div>
             </div>
-           ) : (
+        ) : (
             <Error/>
-      )}
-    </div>
-    
-  );
+         )}
+       </div>
+       
+     );
 }
 
-export default AddSalida;
+export default AsingTool;

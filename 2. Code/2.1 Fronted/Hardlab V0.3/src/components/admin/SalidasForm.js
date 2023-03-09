@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import swal from 'sweetalert';
+
 
 function SalidasForm() {
 
@@ -15,6 +15,11 @@ function SalidasForm() {
     const [TOUCHPAD, setTOUCHPAD] = useState('');
     const [BATERIA_SERIE, setBATERIA_SERIE] = useState('');
     const [TECLADO, setTECLADO] = useState('');
+    const [BISAGRAS, setBISAGRAS] = useState('');
+    const [MARCO_PANTALLA, setMARCO_PANTALLA] = useState('');
+    const [VENTILADOR, setVENTILADOR] = useState('');
+    const [CASE_DISCO_DURO, setCASE_DISCO_DURO] = useState('');
+    const [CASE_BASE_COVER, setCASE_BASE_COVER] = useState('');
     const [COMENTARIOS, setCOMENTARIOS] = useState('');
 
     const handleLogout = () => {
@@ -28,18 +33,6 @@ function SalidasForm() {
 
         window.location.href = './';
     };
-
-    const mostrarAlertaExito = () => {
-        swal({
-            title: "¡Exitoso!",
-            text: "¡Equipo Guardado Exitosamente!",
-            icon: "success",
-            buton: true,
-        })
-            .then((value) => {
-                window.location.href = './destokpView';
-            });
-    }
 
     const handleChange = event => {
         if (event.target.name === 'RAM') {
@@ -60,6 +53,22 @@ function SalidasForm() {
         if (event.target.name === 'TECLADO') {
             setTECLADO(event.target.value);
         }
+        if (event.target.name === 'BISAGRAS') {
+            setBISAGRAS(event.target.value);
+        }
+        if (event.target.name === 'MARCO_PANTALLA') {
+            setMARCO_PANTALLA(event.target.value);
+        }
+        if (event.target.name === 'VENTILADOR') {
+            setVENTILADOR(event.target.value);
+        }
+        if (event.target.name === 'CASE_DISCO_DURO') {
+            setCASE_DISCO_DURO(event.target.value);
+        }
+
+        if (event.target.name === 'CASE_BASE_COVER') {
+            setCASE_BASE_COVER(event.target.value);
+        }
         if (event.target.name === 'COMENTARIOS') {
             setCOMENTARIOS(event.target.value);
         }
@@ -74,11 +83,12 @@ function SalidasForm() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        const data = {SERIAL_EQUIPO, RAM, DISCO, PANTALLA, TOUCHPAD, BATERIA_SERIE, TECLADO, COMENTARIOS };
+        const data = {SERIAL_EQUIPO, RAM, DISCO, PANTALLA, TOUCHPAD, BATERIA_SERIE, TECLADO, BISAGRAS, MARCO_PANTALLA, VENTILADOR, CASE_DISCO_DURO, CASE_BASE_COVER, COMENTARIOS };
         axios.post('http://localhost:4000/api/peticion', data)
             .then(res => {
-                console.log(res.data.id);  
-                mostrarAlertaExito();
+                console.log(res.data.id);                
+                alert("Agregado con exito")
+                window.location.href = './desktopView';
             });
     }
 
@@ -202,7 +212,7 @@ return (
                                             <div class="col-lg-4 mb-4 custom-file">
                                                 <label htmlFor="customFile">Serie bateria</label>
                                                 <br />
-                                                <input type="text" className="form-control input-group" id="customFile" name="BATERIA_SERIE" value={BATERIA_SERIE} onChange={handleChange} />
+                                                <input type="text" className="form-control input-group" id="customFile" name="SERIE_BATERIA" value={BATERIA_SERIE} onChange={handleChange} />
                                             </div>
 
                                         </div>
@@ -214,6 +224,37 @@ return (
                                                 <br />
                                                 <input type="text" className="form-control input-group" id="customFile" name="TECLADO" value={TECLADO} onChange={handleChange} />
                                             </div>
+                                            <div className="col-lg-4 mb-4 ">
+                                                <label htmlFor="floatingInput">Bisagras</label>
+                                                <input type="text" className="form-control input-group" id="floatingInput" name="BISAGRAS" value={BISAGRAS} onChange={handleChange} />
+                                            </div>
+
+                                            <div class="col-lg-4 mb-4 custom-file">
+                                                <label htmlFor="customFile">Marco Pantalla</label>
+                                                <br />
+                                                <input type="text" className="form-control input-group" id="customFile" name="MARCO_PANTALLA" value={MARCO_PANTALLA} onChange={handleChange} />
+                                            </div>
+                                        </div>
+
+                                        <div className='row'>
+                                            <div class="col-lg-4 mb-4">
+                                                <label htmlFor="customFile">Ventilador</label>
+                                                <br />
+                                                <input type="text" className="form-control input-group" id="customFile" name="VENTILADOR" value={VENTILADOR} onChange={handleChange} />
+                                            </div>
+                                            <div className="col-lg-4 mb-4 ">
+                                                <label htmlFor="floatingInput">Case Disco Duro </label>
+                                                <input type="text" className="form-control input-group" id="floatingInput" name="CASE_DISCO_DURO" value={CASE_DISCO_DURO} onChange={handleChange} />
+                                            </div>
+
+                                            <div class="col-lg-4 mb-4 custom-file">
+                                                <label htmlFor="customFile">Case Base Cover (Tapa trasera) </label>
+                                                <br />
+                                                <input type="text" className="form-control input-group" id="customFile" name="CASE_BASE_COVER" value={CASE_BASE_COVER} onChange={handleChange} />
+                                            </div>
+                                        </div>
+
+                                        <div className='row'>
 
                                             <div class="col-lg-6 mb-4">
                                                 <label htmlFor="customFile">Comentarios</label>

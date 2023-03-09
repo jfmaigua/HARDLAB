@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
-export function ToolForm() {
+export function AsingToolForm() {
 
     const cookies = new Cookies();
 
@@ -20,52 +20,51 @@ export function ToolForm() {
     };
 
     const [data, setData] = useState('');
-    const [MARCA, setMarca] = useState('');
-    const [NOMBRE, setNombre] = useState('');
-    const [CANT_DISPONIBLE, setCANT_DISPONIBLE] = useState('');
-    const [CODIGO_BARRAS, setCodigoBarras] = useState('');
-    const [CANTIDAD, setCantidad] = useState('');
-    const [IMAGEN, setImagen] = useState('');
+    const [herramienta, setHerramienta] = useState('');
+    const [herram, setHerram] = useState('');
+    const [COD_ESTACION, setCOD_ESTACION] = useState('');
+    const [COD_HERRAMIENTA, setCOD_HERRAMIENTA] = useState('');
+    const [CAN_ASIGNADA, setCantidad] = useState('');
 
     const handleChange = event => {
-        if (event.target.name === 'MARCA') {
-            setMarca(event.target.value);
+        if (event.target.name === 'COD_ESTACION') {
+            setCOD_ESTACION(event.target.value);
         }
-        if (event.target.name === 'NOMBRE') {
-            setNombre(event.target.value);
+        if (event.target.name === 'COD_HERRAMIENTA') {
+            setCOD_HERRAMIENTA(event.target.value);
         }
-        if (event.target.name === 'CODIGO_BARRAS') {
-            setCodigoBarras(event.target.value);
-        }
-        if (event.target.name === 'CANTIDAD') {
+        if (event.target.name === 'CAN_ASIGNADA') {
             setCantidad(event.target.value);
-        }
-        if (event.target.name === 'IMAGEN') {
-            setImagen(event.target.value);
-        }
-        if (event.target.name === 'CANTIDAD') {
-            setCANT_DISPONIBLE(event.target.value);
         }
     }
 
     const handleSubmit = event => {
         event.preventDefault();
-        if ( !IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS) {
+        if (!COD_ESTACION || !COD_HERRAMIENTA || !CAN_ASIGNADA) {
             alert("Por favor, llene todos los campos");
             return;
         }
         event.preventDefault();
-        console.log(CANT_DISPONIBLE)
-        const data = { CANT_DISPONIBLE, IMAGEN, NOMBRE, MARCA, CANTIDAD, CODIGO_BARRAS };
+        const data = { COD_ESTACION, COD_HERRAMIENTA, CAN_ASIGNADA };
         console.log(data)
-        axios.post('http://localhost:4000/api/herramienta', data)
+        axios.get(`http://localhost:4000/api/herramienta/${COD_HERRAMIENTA}`)
             .then(res => {
-                console.log(res);
-                console.log(res.data);
-                alert("Ageagado con exito")
-                window.location.href = './toolUpdate';
-
-            })
+                setHerram(res.data[0]);
+                if (CAN_ASIGNADA > res.data[0].CANT_DISPONIBLE) {
+                    alert('La cantidad es superior a la cantidad disponible.')
+                    window.location.href = './asing';
+                } else {
+                    axios.post('http://localhost:4000/api/asignacion', data)
+                        .then(res => {
+                            console.log(res);
+                            console.log(res.data);
+                        })
+                    axios.put(`http://localhost:4000/api/asignarCantidad/${COD_HERRAMIENTA}`, { 'CAN_ASIGNADA': CAN_ASIGNADA })
+                        .then(res => {
+                            alert("Ageagado con exito")
+                        });
+                }
+            });
     }
 
     useEffect(() => {
@@ -76,6 +75,28 @@ export function ToolForm() {
                 setData(data);
             });
     }, []);
+
+    useEffect(() => {
+        fetch("http://localhost:4000/api/herramienta_disponible")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setHerramienta(data);
+            });
+    }, []);
+
+    const estaciones = [];
+    estaciones.push(<option className="form-control input-group" hidden >Seleccione la estación</option>)
+    for (const estacion of data) {
+        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE_ESTACION}</option>)
+    }
+
+
+    const herramientas = [];
+    herramientas.push(<option className="form-control input-group" hidden >Seleccione la herramienta</option>)
+    for (const herra of herramienta) {
+        herramientas.push(<option className="form-control input-group" value={herra.COD_HERRAMIENTA}>{herra.NOMBRE}</option>)
+    }
 
     return (
 
@@ -135,47 +156,39 @@ export function ToolForm() {
 
                         <div className="card shadow mb-4">
                             <div className="card-header py-3">
-                                <h6 className="m-0 font-weight-bold text-primary">Agregar una nueva herramienta</h6>
+                                <h6 className="m-0 font-weight-bold text-primary">Asignar herramientas:</h6>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={handleSubmit}>
                                     <div className='row'>
 
-                                        <div className="col-lg-6 mb-4 " >
-                                            <label htmlFor="floatingInput">Código de barras</label>
-                                            <input type="text" className="form-control input-group" id="floatingInput" name="CODIGO_BARRAS" value={CODIGO_BARRAS} onChange={handleChange} />
+                                        <div class="col-lg-4 mb-4">
+                                            <label htmlFor="customFile">Seleccione el puesto de trabajo:</label>
+                                            <br />
+                                            <select className="form-control input-group" id="customFile" name="COD_ESTACION" value={COD_ESTACION} onChange={handleChange}>
+                                                {estaciones}
+                                            </select>
+
                                         </div>
 
-                                        <div className="col-lg-6 mb-4 ">
-                                            <label htmlFor="floatingInput">Nombre</label>
-                                            <input type="text" className="form-control input-group" id="floatingInput" name="NOMBRE" value={NOMBRE} onChange={handleChange} />
+                                        <div class="col-lg-4 mb-4">
+                                            <label htmlFor="customFile">Seleccione la herramienta:</label>
+                                            <br />
+                                            <select className="form-control input-group" id="customFile" name="COD_HERRAMIENTA" value={COD_HERRAMIENTA} onChange={handleChange}>
+                                                {herramientas}
+                                            </select>
+
                                         </div>
                                     </div>
 
                                     <div className='row'>
-
-                                        <div className="col-lg-6 mb-4 " >
-                                            <label htmlFor="floatingInput">Marca</label>
-                                            <input type="text" className="form-control input-group" id="floatingInput" name="MARCA" value={MARCA} onChange={handleChange} />
-                                        </div>
 
                                         <div className="col-lg-6 mb-4 ">
                                             <label htmlFor="floatingInput">Cantidad</label>
-                                            <input type="number" className="form-control input-group" id="floatingInput" name="CANTIDAD" value={CANTIDAD} onChange={handleChange} />
+                                            <input type="number" className="form-control input-group" id="floatingInput" name="CAN_ASIGNADA" value={CAN_ASIGNADA} onChange={handleChange} />
                                         </div>
 
                                     </div>
-
-                                    <div className='row'>
-
-                                        <div className="col-lg-6 mb-4 custom-file">
-                                            <label htmlFor="customFile">Seleccione una imagen</label>
-                                            <br />
-                                            <input type="file" className="custom-file" id="customFile" name="IMAGEN" value={IMAGEN} onChange={handleChange} />
-                                          
-                                        </div>
-                                    </div>
-                                    <br />
                                     <div>
                                         <button className='btn btn-primary' >Agregar</button>
                                     </div>
@@ -199,4 +212,4 @@ export function ToolForm() {
         </div>
     );
 }
-export default ToolForm;
+export default AsingToolForm;

@@ -1,11 +1,12 @@
 import Principal from '../components/Principal';
-import SalidasForm from '../components/admin/SalidasForm';
+import DetailForm from '../components/admin/DetailForm';
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Error from "../components/Error";
+import AsingToolView from '../components/admin/AsingToolView';
 
-function AddSalida() {
+function ViewTool() {
     const cookies = new Cookies();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState("");
@@ -30,8 +31,7 @@ function AddSalida() {
                         <Principal />
                     </div>
                     <div className="col-10">
-                        .   
-                        <SalidasForm />
+                        <AsingToolView/>
                     </div>
                 </div>
             </div>
@@ -43,4 +43,4 @@ function AddSalida() {
   );
 }
 
-export default AddSalida;
+export default ViewTool;

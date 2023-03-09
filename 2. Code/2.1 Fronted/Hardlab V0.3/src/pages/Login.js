@@ -3,29 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import '../assets/css/index.css';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import swal from 'sweetalert';
-
-const mostrarAlerta =() =>{
-
-  
-  swal({
-    title: "Ingreso Exitoso",
-    icon: "success",
-    timer: 3000,
-  });
-
-};
-
-const mostrarAlertaErrror =() =>{
-
-  swal({
-    title:"¡Error!", 
-    text:"¡Usuario o Contraseña errónea!", 
-    icon:"error", 
-    buton:"OK!", 
-  });
-
-}
+import Error from "../components/Error"
 
 class Login extends Component {
   constructor(props) {
@@ -57,8 +35,7 @@ class Login extends Component {
       });
       const data = response.data;
       if (data.error) {
-        mostrarAlertaErrror(); 
-        //alert(data.error);
+        alert(data.error);
       } else {
           // Guarda la información de inicio de sesión en el almacenamiento 
           //local o en el estado de React
@@ -71,8 +48,7 @@ class Login extends Component {
               cookies.set('token', data.token, {path: "/"});
               cookies.set('estacionTrabajo',data.estacionTrabajo,{path: "/"});
               console.log(cookies);
-              mostrarAlerta();
-              //alert(`Bienvenido ${data.firstName} ${data.lastName}`);
+              alert(`Bienvenido ${data.firstName} ${data.lastName}`);
 
               
                   
@@ -81,14 +57,12 @@ class Login extends Component {
                     window.location.href = './dashboardAdmin';
                     console.log(cookies)
                     } else {
-                    window.location.href = './herremientas-usuario';
+                    window.location.href = './dashboard';
                     console.log(cookies)
                     }
       }
     } catch (err) {
-
-      mostrarAlertaErrror();
-      //alert('Usuario o Clave incorrecta');
+      alert('Usuario o Clave incorrecta');
     }
   };
 

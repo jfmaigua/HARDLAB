@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
-function DetailForm() {
+function FormularioDetalleEquipo() {
 
     const cookies = new Cookies();
     const [data, setData] = useState('');
@@ -95,11 +95,6 @@ function DetailForm() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        if (!COD_EQUIPO || !MAIN_BOARD || !SERIAL || !PROCESADOR || !RAM || !DISCO_DURO||!UNIDAD_CD||!PUERTOS_PCI_EXPRESS||!PUERTOS_USB||!PUERTOS_PS2||!UNIDAD_DISQUETE||!TARJETA_RED||!TARJETA_VIDEO||!PUERTOS_VGA||!TARJETA_SONIDO||!PUERTOS_PCI) {
-            alert("Por favor, llene todos los campos");
-            return;
-        }
-
         const dataDetalle = { COD_EQUIPO, MAIN_BOARD, SERIAL, PROCESADOR, RAM, DISCO_DURO, UNIDAD_CD, PUERTOS_PCI_EXPRESS, PUERTOS_USB, PUERTOS_PS2, UNIDAD_DISQUETE, TARJETA_RED, TARJETA_VIDEO, PUERTOS_VGA, TARJETA_SONIDO, COMENTARIOS, PUERTOS_PCI };
         console.log(dataDetalle.COD_EQUIPO)
         axios.post('http://localhost:4000/api/detalleequipo', dataDetalle)
@@ -108,13 +103,13 @@ function DetailForm() {
                 console.log(res.data);
                 setEquipo(res.data);
                 alert("Ageagado con exito")
-                window.location.href = './desktopView';
+                window.location.href = './equipos-usuario';
             })            
             console.log(equipo);        
     }
 
     useEffect(() => {
-        fetch("http://localhost:4000/api/equipo")
+        fetch(`http://localhost:4000/api/equipo/${cookies.get('estacionTrabajo')}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -180,7 +175,7 @@ function DetailForm() {
 
                         <div className="card shadow mb-4">
                             <div className="card-header py-3">
-                                <h6 className="m-0 font-weight-bold text-primary">Agregar Detalle Equipo</h6>
+                                <h6 className="m-0 font-weight-bold text-primary">Agregar Detalle Equpo</h6>
                             </div>
                             <form onSubmit={handleSubmit}>
                                 <div className="card shadow mb-4">
@@ -308,4 +303,4 @@ function DetailForm() {
         </div>
     );
 }
-export default DetailForm;
+export default FormularioDetalleEquipo;

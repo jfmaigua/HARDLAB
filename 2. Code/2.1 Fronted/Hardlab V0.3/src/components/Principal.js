@@ -12,7 +12,7 @@ function Principal() {
       {/* Page Wrapper */}
       <div id="wrapper">
 
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
           {/* Sidebar */}
           {/* Sidebar - Brand */}
@@ -29,7 +29,7 @@ function Principal() {
           {/* Nav Item - Dashboard */}
           <li className="nav-item active">
             <a className="nav-link" href="index.html">
-              <i class="fas fa-home"></i>
+              <i className="fas fa-home"></i>
               <span>Inicio</span></a>
           </li>
 
@@ -50,7 +50,9 @@ function Principal() {
             </a>
             <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div className="bg-white py-2 collapse-inner rounded">
-                <Link className="collapse-item" to="/toolRegister">Agregar</Link>
+                <Link className="collapse-item" to="/toolRegister">Agregar</Link>                
+                <Link className="collapse-item" to="/asing">Asignar</Link>                
+                <Link className="collapse-item" to="/viewTool">Ver Asignaciones</Link>
                 <Link className="collapse-item" to="/toolUpdate">Ver</Link>
               </div>
             </div>
@@ -66,7 +68,8 @@ function Principal() {
             <div id="collapseUtilities" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div className="bg-white py-2 collapse-inner rounded">
                 <Link className="collapse-item" to="/desktopRegister">Agregar</Link>     
-                <Link className="collapse-item" to="/addSalida">Agregar Peticion</Link>
+                <Link className="collapse-item" to="/addDetail">Agregar Detalle</Link>                   
+                <Link className="collapse-item" to="/addSalida">Agregar Petición</Link>
                 <Link className="collapse-item" to="/desktopView">Ver</Link>          
               </div>
             </div>
@@ -107,16 +110,15 @@ function Principal() {
             <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapseReport"
               aria-expanded="true" aria-controls="collapseReport">
               <i className="fas fa-fw fa-wrench"></i>
-              <span>Reportes</span>
+              <span>Reporte</span>
             </a>            
             <div id="collapseReport" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div className="bg-white py-2 collapse-inner rounded">  
-                <Link className="collapse-item" to="/reportes">Ver</Link>          
+              <div className="bg-white py-2 collapse-inner rounded"> 
+                <Link className="collapse-item" to="/">Componentes Dañados </Link>    
+                <Link className="collapse-item" to="/">Cotizacion Reparación</Link>            
               </div>
             </div>
-          </li>
-
-                
+          </li>          
 
         </ul>
       </div>

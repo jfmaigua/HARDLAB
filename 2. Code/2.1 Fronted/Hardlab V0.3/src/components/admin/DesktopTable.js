@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Modal, Form } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { Portal } from 'react-portal';
-import swal from 'sweetalert';
 
 
 function EditForm({ data, handleSave }) {
@@ -11,7 +10,7 @@ function EditForm({ data, handleSave }) {
         COD_EQUIPO: data.COD_EQUIPO,
         COD_ESTACION: data.COD_ESTACION,
         MARCA: data.MARCA,
-        FECHA_INGRESO: data.FECHA_INGRESO,
+        FECHA_ENTRADA: data.FECHA_INGRESO,
         FECHA_SALIDA: data.FECHA_SALIDA,
         ESTADO: data.ESTADO
     });
@@ -25,13 +24,13 @@ function EditForm({ data, handleSave }) {
 
     return (
         <Form>
-            <Form.Group controlId="formCOD_EQUIPO">
+            <Form.Group controlId="formCOD_HERRAMIENTA">
                 <Form.Label>Código de Equipo</Form.Label>
                 <Form.Control type="text" name="COD_EQUIPO" value={formData.COD_EQUIPO} onChange={handleChange} disabled />
             </Form.Group>
             <Form.Group controlId="formCOD_ESTACION">
                 <Form.Label>Código de estación</Form.Label>
-                <Form.Control type="text" name="COD_ESTACION" value={formData.COD_ESTACION} onChange={handleChange} disabled />
+                <Form.Control type="text" name="COD_ESTACION" value={formData.COD_ESTACION} onChange={handleChange} />
             </Form.Group>
             <Form.Group controlId="formMARCA">
                 <Form.Label>Marca</Form.Label>
@@ -39,7 +38,7 @@ function EditForm({ data, handleSave }) {
             </Form.Group>
             <Form.Group controlId="formFECHA_ENTRADA">
                 <Form.Label>Fecha de entrada</Form.Label>
-                <Form.Control type="date" name="FECHA_INGRESO" value={formData.FECHA_INGRESO} onChange={handleChange} />
+                <Form.Control type="date" name="FECHA_INGRESO" value={formData.FECHA_ENTRADA} onChange={handleChange} />
             </Form.Group>
             <Form.Group controlId="formFECHA_SALIDA">
                 <Form.Label>Fecha de salida</Form.Label>
@@ -69,54 +68,6 @@ function DesktopTable() {
         let fechaFormateada = new Date(fecha);
         return fechaFormateada.toLocaleDateString();
     }
-    const mostrarAlertaErrror = (id) => {
-        swal({
-            title: "Eliminar?",
-            text: "Esta seguro de que desea eliminar esta herramienta!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-                if (willDelete) {
-                    swal("Equipo eliminado exitosamente!", {
-                        icon: "success",
-
-                    });
-                    handleDelete(id)
-                } else {
-                    swal("Equipo no Eliminado!");
-                }
-            });
-    }
-
-
-    const mostrarAlertaExito = () => {
-
-        swal({
-            title: "¡Exitoso!",
-            text: "¡Equipo Guardado Exitosamente!",
-            icon: "success",
-            buton: true,
-        })
-            .then((value) => {
-                window.location.href = './toolUpdate';
-            });
-    }
-
-    const mostrarAlertaNoSeEncuentra = () => {
-
-        swal({
-            title: "¡ERROR!",
-            text: "¡El equipo seleccionado no cuenta con esa información!",
-            icon: "warning",
-            buton: true,
-        })
-            .then((value) => {
-                window.location.href = './desktopView';
-            });
-    }
-
     const handleShowDetail = (item) => {
         setSelectedItem(item);
         setShowDetail(true);
@@ -126,8 +77,6 @@ function DesktopTable() {
         setShowDetail(false);
         setSelectedItem("")
     }
-
-
     const handleShowPeticion = (item) => {
         setSelectedItem(item);
         setShowPeticion(true);
@@ -151,7 +100,7 @@ function DesktopTable() {
     const handleDelete = (id) => {
         axios.delete(`http://localhost:4000/api/equipo/${id}`)
             .then(res => {
-                const updatedData = data.filter(item => item.COD_EQUIPO !== id);
+                const updatedData = data.filter(item => item.COD_EQUIPO !== id);                
                 setData(updatedData);
             })
             .catch(err => {
@@ -176,7 +125,6 @@ function DesktopTable() {
                 });
                 setData(updatedData);
                 setIsModalOpen(false);
-                mostrarAlertaExito();
             })
             .catch(err => {
                 console.log(err);
@@ -187,7 +135,7 @@ function DesktopTable() {
         setIsModalOpen(false);
         setIsEditing(false);
     };
-
+    
     function DetailModal({ show, onClose, item }) {
         const [detailData, setDetailData] = useState({});
 
@@ -198,9 +146,9 @@ function DesktopTable() {
                         setDetailData(dataItem);
                     })
                 })
+                .then(() => setShowDetail(true))
                 .catch((error) => {
                     setShowDetail(false);
-                    mostrarAlertaNoSeEncuentra();
                 });
         }, [item]);
 
@@ -248,9 +196,31 @@ function DesktopTable() {
                                     <span className='font-weight-bold'>Main Board</span>
                                     <p>{detailData.MAIN_BOARD}</p>
                                 </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Puertos PCI</span>
+                                    <p>{detailData.PUERTOS_PCI}</p>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Puertos PCI Express</span>
+                                    <p>{detailData.PUERTOS_PCI_EXPRESS}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Puertos PS2</span>
+                                    <p>{detailData.PUERTOS_PS2}</p>
+                                </div>
                                 <div className="col-lg-4">
                                     <span className='font-weight-bold'>Puertos USB</span>
                                     <p>{detailData.PUERTOS_USB}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Puertos VGA</span>
+                                    <p>{detailData.PUERTOS_VGA}</p>
+                                </div>
+
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Tarjeta de Red</span>
+                                    <p>{detailData.TARJETA_RED}</p>
                                 </div>
 
                                 <div className="col-lg-4">
@@ -260,12 +230,15 @@ function DesktopTable() {
                                 <div className="col-lg-4 ">
                                     <span className='font-weight-bold'>Tarjeta de Video</span>
                                     <p>{detailData.TARJETA_VIDEO}</p>
-                                </div>                                
-                                
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Unidad CD</span>
+                                    <p>{detailData.UNIDAD_CD}</p>
+                                </div>
                                 <div className="col-lg-4 ">
-                                    <span className='font-weight-bold'>Comentarios</span>
-                                    <p>{detailData.COMENTARIOS}</p>
-                                </div>                             
+                                    <span className='font-weight-bold'>Unidad Disquete</span>
+                                    <p>{detailData.UNIDAD_DISQUETE}</p>
+                                </div>
                             </Modal.Body>
                         </Modal>
                     </Portal>
@@ -273,6 +246,8 @@ function DesktopTable() {
             </div >
         );
     };
+
+
     function PeticionModal({ show, onClose, item }) {
         const [detailData, setDetailData] = useState({});
 
@@ -283,9 +258,9 @@ function DesktopTable() {
                         setDetailData(dataItem);
                     })
                 })
+                .then(() => setShowDetail(true))
                 .catch((error) => {
-                    setShowPeticion(false);
-                    mostrarAlertaNoSeEncuentra();
+                    setShowDetail(false);
                 });
         }, [item]);
 
@@ -310,26 +285,50 @@ function DesktopTable() {
                                     <p>{detailData.RAM}</p>
                                 </div>
                                 <div className="col-lg-4">
-                                    <span className='font-weight-bold'>Disco</span>
-                                    <p>{(detailData.DISCO)}</p>
+                                    <span className='font-weight-bold'>DISCO</span>
+                                    <p>{FormatearFecha(detailData.DISCO)}</p>
                                 </div>
                                 <div className="col-lg-4 ">
                                     <span className='font-weight-bold'>Pantalla</span>
-                                    <p>{(detailData.PANTALLA)}</p>
+                                    <p>{FormatearFecha(detailData.PANTALLA)}</p>
                                 </div>
                                 <div className="col-lg-4">
                                     <span className='font-weight-bold'>Touchpad</span>
                                     <p>{detailData.TOUCHPAD}</p>
                                 </div>
-                                
                                 <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Serie de bateria</span>
+                                    <p>{detailData.BATERIA_SERIE}</p>
+                                </div>
+                                <div className="col-lg-4">
                                     <span className='font-weight-bold'>Teclado</span>
                                     <p>{detailData.TECLADO}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Bisagras</span>
+                                    <p>{detailData.BISAGRAS}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Marco de Pantalla</span>
+                                    <p>{detailData.MARCO_PANTALLA}</p>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Ventilador</span>
+                                    <p>{detailData.VENTILADOR}</p>
+                                </div>
+                                <div className="col-lg-4 ">
+                                    <span className='font-weight-bold'>Case Disco Duro</span>
+                                    <p>{detailData.CASE_DISCO_DURO}</p>
+                                </div>
+                                <div className="col-lg-4">
+                                    <span className='font-weight-bold'>Case Base Cover </span>
+                                    <p>{detailData.CASE_BASE_COVER}</p>
                                 </div>
                                 <div className="col-lg-4 ">
                                     <span className='font-weight-bold'>Comentarios</span>
                                     <p>{detailData.COMENTARIOS}</p>
-                                </div>
+                                </div>                                
                             </Modal.Body>
                         </Modal>
                     </Portal>
@@ -337,6 +336,7 @@ function DesktopTable() {
             </div >
         );
     };
+
 
     return (
         <div className="card shadow mb-4">
@@ -359,7 +359,7 @@ function DesktopTable() {
                         </thead>
                         <tbody>
                             {data.map(item => (
-                                <TableRow key={item.COD_EQUIPO} data={item} handleDelete={handleDelete} handleEdit={handleEdit} handleShowDetail={handleShowDetail} handleShowPeticion={handleShowPeticion} />
+                                <TableRow key={item.COD_EQUIPO} data={item} handleDelete={handleDelete} handleEdit={handleEdit} handleShowDetail={handleShowDetail} handleShowPeticion = {handleShowPeticion}/>
                             ))}
 
                         </tbody>
@@ -374,8 +374,10 @@ function DesktopTable() {
                     <EditForm data={editData} handleSave={handleSave}></EditForm>
                 </Modal.Body>
             </Modal>
-            {showPeticion && selectedItem && <PeticionModal show={showPeticion} onClose={handleClosePeticion} item={selectedItem} />}
-            {showDetail && <DetailModal show={showDetail} onClose={handleCloseDetail} item={selectedItem} />}
+
+            <DetailModal show={showDetail} onClose={handleCloseDetail} item={selectedItem} />
+            
+            <PeticionModal show={showPeticion} onClose={handleClosePeticion} item={selectedItem} />
         </div>
     );
 
@@ -391,11 +393,11 @@ function DesktopTable() {
                 <td>{FormatearFecha(data.FECHA_SALIDA)}</td>
                 <td>{data.ESTADO}</td>
                 <td>
-                    <button onClick={() => mostrarAlertaErrror(data.COD_EQUIPO)} className='btn btn-danger btn-icon-split'>Eliminar</button>
+                    <button onClick={() => handleDelete(data.COD_EQUIPO)} className='btn btn-danger btn-icon-split'>Eliminar</button>
                     &nbsp;&nbsp;
                     <button onClick={() => handleEdit(data)} className='btn btn-warning btn-icon-split'>Editar</button>
                     &nbsp;&nbsp;
-                    <button onClick={() => handleShowDetail(data.COD_EQUIPO)} className='btn btn-info'>Ver Detalle</button>
+                    <button onClick={() => handleShowDetail(data.COD_EQUIPO)} className='btn btn-info'>Ver Detalle</button>                    
                     &nbsp;&nbsp;
                     <button onClick={() => handleShowPeticion(data.COD_EQUIPO)} className='btn btn-info'>Ver Petición</button>
                 </td>

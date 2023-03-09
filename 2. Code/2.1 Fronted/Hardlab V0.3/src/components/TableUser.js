@@ -9,7 +9,8 @@ function TableUser() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(`http://localhost:4000/api/herramienta/${cookies.get('estacionTrabajo')}`);
+      const response = await axios.get(`http://localhost:4000/api/herramientas/${cookies.get('estacionTrabajo')}`);
+    
       setData(response.data);
     }
 
@@ -39,7 +40,7 @@ function TableUser() {
               </td>
               <td>{item.NOMBRE}</td>
               <td>{item.MARCA}</td>
-              <td>{item.CANTIDAD}</td>
+              <td>{item.CAN_ASIGNADA}</td>
               <td>{item.CODIGO_BARRAS}</td>
             </tr>
           );

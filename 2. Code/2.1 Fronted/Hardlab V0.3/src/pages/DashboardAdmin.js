@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
+import Principal from "../components/Principal";
 import ToolUpdate from "./ToolUpdate";
-
+import Error from "../components/Error"
 
 const DashboardAdmin = () => {
   const cookies = new Cookies();

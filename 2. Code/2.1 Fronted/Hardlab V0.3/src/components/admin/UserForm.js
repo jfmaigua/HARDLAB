@@ -1,36 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import swal from 'sweetalert';
 
 export function AddUser() {
 
     const cookies = new Cookies();
 
-    const mostrarAlerta =() =>{
 
-        swal({
-          title:"¡Información Incompleta!", 
-          text:"¡Rellene todo los Campos!", 
-          icon:"warning", 
-          buton:"OK!", 
-        });
-      
-      }
-
-      const mostrarAlertaExito =() =>{
-
-        swal({
-          title:"¡Exitoso!", 
-          text:"¡Usuario Guardado Exitosamente!", 
-          icon:"success", 
-          buton:true, 
-        })
-        .then((value)=>{
-            window.location.href = './viewUser';
-        });
-        
-      }
     const handleLogout = () => {
   
       cookies.remove('id', {path: "/"});
@@ -87,13 +63,11 @@ export function AddUser() {
                 setPassword('');
                 setEstacionTrabajo('');
                 setRol('');
-                mostrarAlertaExito();
-               
-            }).catch(error => {
+                alert("Ageagado con exito")
+                window.location.href = './viewUser';
                 
-                mostrarAlerta();
-            });
-        }
+            })
+    }
 
     useEffect(() => {
         fetch("http://localhost:4000/api/estacion_trabajo")
@@ -105,12 +79,9 @@ export function AddUser() {
     }, []);
 
     const estaciones = [];
-    estaciones.push(<option className="form-control input-group" >Seleccionar Estacion</option>)
-    for (const estacion of data) {
-
-        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE}</option>)
+    for (const estacion of data) {        
+        estaciones.push(<option className="form-control input-group"value={estacion.COD_ESTACION}>{estacion.NOMBRE}</option>)
     }
-
 
     return (
 
@@ -207,8 +178,8 @@ export function AddUser() {
                                         <div className="col-lg-6 mb-4">
                                             <label htmlFor="customFile">Seleccione el puesto de trabajo:</label>
                                             <br />
-                                            <select type="text" className="form-control input-group" id="floatingInput" name="estacionTrabajo" value={estacionTrabajo} onChange={handleChange} >
-                                                    {estaciones}
+                                            <select className="form-control input-group" id="floatingInput" name="estacionTrabajo" value={estacionTrabajo} onChange={handleChange}>
+                                                {estaciones}
                                             </select>
 
                                         </div>
