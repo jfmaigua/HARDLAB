@@ -4,7 +4,8 @@ import { Modal, Form } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { Portal } from 'react-portal';
 import swal from 'sweetalert';
-
+import { BsEyeFill } from 'react-icons/bs';
+import Cookies from "universal-cookie";
 
 function EditForm({ data, handleSave }) {
     const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ function EditForm({ data, handleSave }) {
         FECHA_SALIDA: data.FECHA_SALIDA,
         ESTADO: data.ESTADO
     });
+
+
 
     const handleChange = (e) => {
         setFormData({
@@ -64,6 +67,17 @@ function TableEquiposUser() {
     const [showDetail, setShowDetail] = useState(false);
     const [showPeticion, setShowPeticion] = useState(false);
     const [selectedItem, setSelectedItem] = useState({});
+    const cookies = new Cookies();
+    console.log(cookies)
+    useEffect(() => {
+        async function fetchData() {
+            const response = await axios.get(`http://localhost:4000/api/equipo/${cookies.get('estacionTrabajo')}`);
+            setData(response.data);
+            console.log(cookies);
+        }
+
+        fetchData();
+    }, []);
 
     function FormatearFecha(fecha) {
         let fechaFormateada = new Date(fecha);
@@ -113,7 +127,7 @@ function TableEquiposUser() {
             buton: true,
         })
             .then((value) => {
-                window.location.href = './equipos-usuario';
+                window.location.href = './desktopView';
             });
     }
 
@@ -137,16 +151,6 @@ function TableEquiposUser() {
         setShowPeticion(false);
         setSelectedItem("")
     }
-
-    useEffect(() => {
-        axios.get('http://localhost:4000/api/equipo')
-            .then(res => {
-                setData(res.data);
-            })
-            .catch(err => {
-                alert("No se han registrado equipos. ")
-            });
-    }, []);
 
     const handleDelete = (id) => {
         axios.delete(`http://localhost:4000/api/equipo/${id}`)
@@ -260,7 +264,7 @@ function TableEquiposUser() {
                                 <div className="col-lg-4 ">
                                     <span className='font-weight-bold'>Tarjeta de Video</span>
                                     <p>{detailData.TARJETA_VIDEO}</p>
-                                </div>                                
+                                </div>
                             </Modal.Body>
                         </Modal>
                     </Portal>
@@ -316,7 +320,7 @@ function TableEquiposUser() {
                                     <span className='font-weight-bold'>Touchpad</span>
                                     <p>{detailData.TOUCHPAD}</p>
                                 </div>
-                                
+
                                 <div className="col-lg-4 ">
                                     <span className='font-weight-bold'>Teclado</span>
                                     <p>{detailData.TECLADO}</p>
@@ -343,6 +347,7 @@ function TableEquiposUser() {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
+                                <th>Detalle</th>
                                 <th>Código equipo</th>
                                 <th>Estación</th>
                                 <th>Marca</th>
@@ -379,7 +384,12 @@ function TableEquiposUser() {
     function TableRow({ data, handleDelete, handleEdit, handleShowDetail, handleShowPeticion }) {
         return (
             <tr>
-                <td>{data.COD_EQUIPO}</td>
+                <td>
+                    &nbsp;&nbsp;
+                    <BsEyeFill onClick={() => handleShowDetail(data.COD_EQUIPO)} >Equipo</BsEyeFill>
+                </td>
+                <td> &nbsp;&nbsp;
+                    {data.COD_EQUIPO}</td>
                 <td>{data.COD_ESTACION}</td>
                 <td>{data.MARCA}</td>
                 <td>{FormatearFecha(data.FECHA_INGRESO)}</td>
@@ -388,11 +398,9 @@ function TableEquiposUser() {
                 <td>
                     <button onClick={() => mostrarAlertaErrror(data.COD_EQUIPO)} className='btn btn-danger btn-icon-split'>Eliminar</button>
                     &nbsp;&nbsp;
-                    <button onClick={() => handleEdit(data)} className='btn btn-warning btn-icon-split'>Editar</button>
-                    &nbsp;&nbsp;
-                    <button onClick={() => handleShowDetail(data.COD_EQUIPO)} className='btn btn-info'>Ver Detalle</button>
-                    &nbsp;&nbsp;
                     <button onClick={() => handleShowPeticion(data.COD_EQUIPO)} className='btn btn-info'>Ver Petición</button>
+                    &nbsp;&nbsp;
+                    <button onClick={() => handleEdit(data)} className='btn btn-warning btn-icon-split'>Repotenciar</button>
                 </td>
 
             </tr>
