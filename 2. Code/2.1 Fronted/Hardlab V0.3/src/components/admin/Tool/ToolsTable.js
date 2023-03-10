@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 function EditForm({ data, handleSave }) {
     const [formData, setFormData] = useState({
         COD_HERRAMIENTA: data.COD_HERRAMIENTA,
-        COD_ESTACION: data.COD_ESTACION,
+        TIPO: data.TIPO,
         NOMBRE: data.NOMBRE,
         MARCA: data.MARCA,
         CANTIDAD: data.CANTIDAD,
@@ -28,10 +28,6 @@ function EditForm({ data, handleSave }) {
                 <Form.Label>Código de herramienta</Form.Label>
                 <Form.Control type="text" name="COD_HERRAMIENTA" value={formData.COD_HERRAMIENTA} onChange={handleChange} disabled />
             </Form.Group>
-            <Form.Group controlId="formCOD_ESTACION">
-                <Form.Label>Código de estación</Form.Label>
-                <Form.Control type="text" name="COD_ESTACION" value={formData.COD_ESTACION} onChange={handleChange} disabled />
-            </Form.Group>
             <Form.Group controlId="formNOMBRE">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control type="text" name="NOMBRE" value={formData.NOMBRE} onChange={handleChange} />
@@ -42,11 +38,15 @@ function EditForm({ data, handleSave }) {
             </Form.Group>
             <Form.Group controlId="formCANTIDAD">
                 <Form.Label>Cantidad</Form.Label>
-                <Form.Control type="number" name="CANTIDAD" value={formData.CANTIDAD} onChange={handleChange} />
+                <Form.Control type="number" name="CANTIDAD" value={formData.CANTIDAD} onChange={handleChange} disable/>
             </Form.Group>
             <Form.Group controlId="formCODIGO_BARRAS">
                 <Form.Label>Código de barras</Form.Label>
                 <Form.Control type="text" name="CODIGO_BARRAS" value={formData.CODIGO_BARRAS} onChange={handleChange} />
+            </Form.Group>            
+            <Form.Group controlId="formCODIGO_BARRAS">
+                <Form.Label>Tipo</Form.Label>
+                <Form.Control type="text" name="CODIGO_BARRAS" value={formData.TIPO} onChange={handleChange} disable />
             </Form.Group>
             <br />
             <button onClick={() => handleSave(formData)} className='btn btn-success btn-icon-split'>Guardar</button>
