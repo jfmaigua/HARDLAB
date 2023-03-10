@@ -26,6 +26,7 @@ export function ToolForm() {
     const [CODIGO_BARRAS, setCodigoBarras] = useState('');
     const [CANTIDAD, setCantidad] = useState('');
     const [IMAGEN, setImagen] = useState('');
+    const [TIPO, setTipo] = useState('');
 
     const handleChange = event => {
         if (event.target.name === 'MARCA') {
@@ -46,17 +47,20 @@ export function ToolForm() {
         if (event.target.name === 'CANTIDAD') {
             setCANT_DISPONIBLE(event.target.value);
         }
+        if (event.target.name === 'TIPO') {
+            setTipo(event.target.value);
+        }
     }
 
     const handleSubmit = event => {
         event.preventDefault();
-        if ( !IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS) {
+        if (!IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS || !TIPO) {
             alert("Por favor, llene todos los campos");
             return;
         }
         event.preventDefault();
         console.log(CANT_DISPONIBLE)
-        const data = { CANT_DISPONIBLE, IMAGEN, NOMBRE, MARCA, CANTIDAD, CODIGO_BARRAS };
+        const data = { CANT_DISPONIBLE, IMAGEN, NOMBRE, MARCA, CANTIDAD, CODIGO_BARRAS, TIPO };
         console.log(data)
         axios.post('http://localhost:4000/api/herramienta', data)
             .then(res => {
@@ -168,11 +172,20 @@ export function ToolForm() {
 
                                     <div className='row'>
 
+                                        <div class="col-lg-6 mb-4">
+                                            <label htmlFor="customFile">Tipo:</label>
+                                            <br />
+                                            <select className="form-control input-group" id="customFile" name="TIPO" value={TIPO} onChange={handleChange}>
+                                                <option className="form-control input-group">Herramienta</option>
+                                                <option className="form-control input-group">Periferico</option>
+                                            </select>
+                                        </div>
+
                                         <div className="col-lg-6 mb-4 custom-file">
                                             <label htmlFor="customFile">Seleccione una imagen</label>
                                             <br />
                                             <input type="file" className="custom-file" id="customFile" name="IMAGEN" value={IMAGEN} onChange={handleChange} />
-                                          
+
                                         </div>
                                     </div>
                                     <br />

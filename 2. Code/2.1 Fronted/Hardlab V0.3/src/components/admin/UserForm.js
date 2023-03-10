@@ -8,25 +8,25 @@ export function AddUser() {
 
 
     const handleLogout = () => {
-  
-      cookies.remove('id', {path: "/"});
-      cookies.remove('firstName', {path: "/"});
-      cookies.remove('lastName', {path: "/"});
-      cookies.remove('username', {path: "/"});
-      cookies.remove('rol',  {path: "/"});
-      cookies.remove('token',  {path: "/"});        
-  
-      window.location.href = './';
+
+        cookies.remove('id', { path: "/" });
+        cookies.remove('firstName', { path: "/" });
+        cookies.remove('lastName', { path: "/" });
+        cookies.remove('username', { path: "/" });
+        cookies.remove('rol', { path: "/" });
+        cookies.remove('token', { path: "/" });
+
+        window.location.href = './';
     };
 
     const [data, setData] = useState('');
     const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');    
+    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [rol, setRol] = useState('');
     const [estacionTrabajo, setEstacionTrabajo] = useState('');
-    
+
 
     const handleChange = event => {
         if (event.target.name === 'firstName') {
@@ -51,7 +51,7 @@ export function AddUser() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        const data = {  firstName, lastName, username, password, rol, estacionTrabajo };
+        const data = { firstName, lastName, username, password, rol, estacionTrabajo };
         console.log(data)
         axios.post('http://localhost:4000/users/registrar', data)
             .then(res => {
@@ -65,7 +65,7 @@ export function AddUser() {
                 setRol('');
                 alert("Ageagado con exito")
                 window.location.href = './viewUser';
-                
+
             })
     }
 
@@ -79,8 +79,8 @@ export function AddUser() {
     }, []);
 
     const estaciones = [];
-    for (const estacion of data) {        
-        estaciones.push(<option className="form-control input-group"value={estacion.COD_ESTACION}>{estacion.NOMBRE}</option>)
+    for (const estacion of data) {
+        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE}</option>)
     }
 
     return (
@@ -120,15 +120,15 @@ export function AddUser() {
                             <li className="nav-item dropdown no-arrow">
                                 <a className="nav-link dropdown-toggle" href="/Tool" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">{cookies.get('firstName')+' '+cookies.get('lastName')}</span>
+                                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">{cookies.get('firstName') + ' ' + cookies.get('lastName')}</span>
                                     <img className="img-profile rounded-circle"
                                         src="img/undraw_profile.svg" alt='imganen' />
                                 </a>
                             </li>
                             {/* Nav Item - Cerrar Sesion */}
 
-                            <li  className="nav-item dropdown no-arrow">
-                                <a  className="nav-link dropdown-toggle" href="/" onClick={handleLogout} id="userDropdown" role="button"
+                            <li className="nav-item dropdown no-arrow">
+                                <a className="nav-link dropdown-toggle" href="/" onClick={handleLogout} id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  > Cerrar Sesión</a>
                             </li>
                         </ul>
@@ -183,12 +183,14 @@ export function AddUser() {
                                             </select>
 
                                         </div>
-
-                                        <div className="col-lg-6 mb-4 custom-file">
-                                            <label htmlFor="customFile">Rol</label>
+                                        <div class="col-lg-6 mb-4">
+                                            <label htmlFor="customFile">Rol:</label>
                                             <br />
-                                            <input type="text" className="form-control input-group" id="floatingInput" name="rol" value={rol} onChange={handleChange} />
-
+                                            <select className="form-control input-group" id="customFile" name="rol" value={rol} onChange={handleChange}>
+                                                <option className="form-control input-group" hidden>Escoga un rol</option>
+                                                <option className="form-control input-group" value={1}>Administrador</option>
+                                                <option className="form-control input-group" value={2}>Lider</option>
+                                            </select>
                                         </div>
                                     </div>
 
