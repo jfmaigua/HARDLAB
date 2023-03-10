@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Form } from 'react-bootstrap';
 import swal from 'sweetalert';
+import { BsArrowLeft,BsArrowRight } from 'react-icons/bs';
+
 
 function EditForm({ data, handleSave }) {
     const [formData, setFormData] = useState({
@@ -59,6 +61,23 @@ function ToolsTable() {
     const [editData, setEditData] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 7;
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+    
+    function handlePrevPage() {
+        setCurrentPage(currentPage - 1);
+      }
+    
+      function handleNextPage() {
+        setCurrentPage(currentPage + 1);
+      }
+
 
     const mostrarAlertaErrror = (id) => {
         swal({
@@ -150,6 +169,15 @@ function ToolsTable() {
                 <h6 className="m-0 font-weight-bold text-primary">Herramientas</h6>
             </div>
             <div className="card-body">
+            <div className="d-flex justify-content-end mt-3">
+                    <button onClick={handlePrevPage} disabled={currentPage === 1} className="btn btn-outline-secondary me-2">
+                    <BsArrowLeft />
+                    </button>
+                    <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-outline-secondary">
+                    <BsArrowRight />
+                    </button>
+                </div>
+                <br/>
                 <div className="table-responsive">
                     <Table striped bordered hover>
                         <thead>
@@ -163,7 +191,7 @@ function ToolsTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map(item => (
+                            {currentData.map(item => (
                                 <TableRow key={item.COD_HERRAMIENTA} data={item} handleDelete={handleDelete} handleEdit={handleEdit} />
                             ))}
 

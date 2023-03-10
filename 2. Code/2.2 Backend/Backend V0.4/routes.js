@@ -180,11 +180,21 @@ routes.get('/equipo', (req, res) => {
     })
 })
 })
+routes.get('/equiposAlta', (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+
+        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ?', ['alta','Alta'], (err, rows)=>{
+            if(err) return res.send(err)
+            res.json(rows)
+        })
+    })
+})
 routes.get('/equiposDanados', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
 
-        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ?', ['dañada', 'Dañada'], (err, rows)=>{
+        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ?', ['dañado','Dañado'], (err, rows)=>{
             if(err) return res.send(err)
             res.json(rows)
         })

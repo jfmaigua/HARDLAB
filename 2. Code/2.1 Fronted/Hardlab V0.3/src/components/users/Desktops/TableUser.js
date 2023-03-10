@@ -2,9 +2,26 @@ import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from "universal-cookie";
+import { BsArrowLeft,BsArrowRight } from 'react-icons/bs';
 
 function TableUser() {
   const [data, setData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  
+  function handlePrevPage() {
+      setCurrentPage(currentPage - 1);
+    }
+  
+    function handleNextPage() {
+      setCurrentPage(currentPage + 1);
+    }
   const cookies = new Cookies();
 
   useEffect(() => {
@@ -17,7 +34,18 @@ function TableUser() {
   }, [cookies]);
 
   return (
-    <Table striped bordered hover>
+    <div>
+        <div className="d-flex justify-content-end mt-3">
+                    <button onClick={handlePrevPage} disabled={currentPage === 1} className="btn btn-outline-secondary me-2">
+                    <BsArrowLeft />
+                    </button>
+                    <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-outline-secondary">
+                    <BsArrowRight />
+                    </button>
+                </div>
+                <br/>
+
+                <Table striped bordered hover>
       <thead>
         <tr>
           <th>#</th>
@@ -46,6 +74,8 @@ function TableUser() {
         })}
       </tbody>
     </Table>
+    </div>
+    
   );
 }
 

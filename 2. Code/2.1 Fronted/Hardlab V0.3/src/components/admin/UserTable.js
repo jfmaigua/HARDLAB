@@ -4,7 +4,7 @@ import { Modal, Form ,Col} from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import Cookies from 'universal-cookie';
 import swal from 'sweetalert';
-import { BsArrowLeft,BsArrowRight,BsEyeFill  } from 'react-icons/bs';
+import { BsArrowLeft,BsArrowRight } from 'react-icons/bs';
 function EditForm({ data, handleSave }) {
 
     const [stations, setStations] = useState([]);

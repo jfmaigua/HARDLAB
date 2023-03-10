@@ -10,6 +10,7 @@ function ReportesEquipos() {
   const [equipos, setEquipo] = useState(null);
   const [equiposD, setEquipoD] = useState(null);
   const [equiposR, setEquipoR] = useState(null);
+  const [equiposA, setEquipoA] = useState(null);
   const [verWeb, setVerWeb] = useState(false);
   const [verPdf, setVerPdf] = useState(false);
 
@@ -34,11 +35,19 @@ function ReportesEquipos() {
         setEquipoR(data);
       });
   }
+  function fetchEquipoAlta() {
+    fetch("http://localhost:4000/api/equiposAlta")
+      .then((response) => response.json())
+      .then((data) => {
+        setEquipoA(data);
+      });
+  }
 
   React.useEffect(() => {
     fetchEquipo();
     fetchEquipoDanados();
     fetchEquipoRefactorizar();
+    fetchEquipoAlta();
   }, []);
 
   const Menu = () => (
@@ -87,6 +96,12 @@ function ReportesEquipos() {
             document={<DocuEquiposRefactorizarPDF equiposR={equiposR} />}
             fileName="Reporte_Equipos_Repotenciar.pdf"
           ><Button variant="dark">Reporte Equipos Repotenciar</Button></PDFDownloadLink>
+        </Col>
+        <Col xs="auto" className="mx-3 my-2">
+        <PDFDownloadLink
+            document={<DocuEquiposRefactorizarPDF equiposR={equiposA} />}
+            fileName="Reporte_Equipos_Entregados.pdf"
+          ><Button variant="dark">Reporte Equipos Entregados</Button></PDFDownloadLink>
         </Col>
       </Row>
     </Container>

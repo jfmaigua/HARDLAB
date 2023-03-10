@@ -71,21 +71,6 @@ function PrincipalUser() {
             </div>
           </li>
 
-          {/*  {/* Nav Item - Utilities Collapse Menu */}
-          <li className="nav-item">
-            <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapseStation"
-              aria-expanded="true" aria-controls="collapseStation">
-              <i className="fas fa-fw fa-wrench"></i>
-              <span>Reporte</span>
-            </a>            
-            <div id="collapseStation" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-              <div className="bg-white py-2 collapse-inner rounded"> 
-                <Link className="collapse-item" to="/">Componentes Dañados </Link>    
-                <Link className="collapse-item" to="/">Cotizacion Reparación</Link>            
-              </div>
-            </div>
-          </li>          
-
           
 
 
