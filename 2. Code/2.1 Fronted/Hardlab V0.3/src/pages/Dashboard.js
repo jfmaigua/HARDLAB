@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import "../assets/css/App.css";
 
 //import Cookies from 'universal-cookie';
@@ -18,12 +17,9 @@ const Dashboard = () => {
       setIsAuthenticated(true);
       setUserRole(cookies.get('rol'));
     }
-  }, []);
+  }, [cookies]);
 
-  let history = useHistory()
-  function handleClick() {
-    history.push("/")
-  }
+ 
 
 
   //const cookies = new Cookies();

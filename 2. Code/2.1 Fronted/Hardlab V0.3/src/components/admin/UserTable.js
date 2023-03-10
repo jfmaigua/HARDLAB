@@ -3,12 +3,14 @@ import axios from 'axios';
 import { Modal, Form ,Col} from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import Cookies from 'universal-cookie';
-
+import swal from 'sweetalert';
+import { BsArrowLeft,BsArrowRight,BsEyeFill  } from 'react-icons/bs';
 function EditForm({ data, handleSave }) {
 
     const [stations, setStations] = useState([]);
     const [selectedStation, setSelectedStation] = useState("");
-    
+
+
     const [formData, setFormData] = useState({
         id: data.id,
         firstName: data.firstName,
@@ -18,6 +20,8 @@ function EditForm({ data, handleSave }) {
         rol: data.rol,
         estacionTrabajo: data.estacionTrabajo
     });
+
+
 
     const handleChange = (e) => {
         setFormData({
@@ -46,6 +50,10 @@ function EditForm({ data, handleSave }) {
                 <Form.Control type="text" name="id" value={formData.id} onChange={handleChange}  disabled />
             </Form.Group>
             <Form.Group controlId="formfirstName">
+                <Form.Label>Estacion de Trabajo</Form.Label>
+                <Form.Control type="text" name="estacionTrabajo" value={formData.estacionTrabajo} onChange={handleChange}  disabled />
+            </Form.Group>
+            <Form.Group controlId="formfirstName">
                 <Form.Label>Nombres</Form.Label>
                 <Form.Control type="text" name="firstName" value={formData.firstName} onChange={handleChange}  />
             </Form.Group>
@@ -66,19 +74,8 @@ function EditForm({ data, handleSave }) {
                 <Form.Control type="text" name="rol" value={formData.rol} onChange={handleChange} />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridState">
-        <Form.Label>Estación</Form.Label>
-        <Form.Control
-            as="select"
-            value={selectedStation}
-            onChange={handleChange}
-            >
-            <option value="">Selecciona una estación</option>
-            {stations.map((station) => (
-                <option key={station.COD_ESTACION} value={station.COD_ESTACION}>
-                {station.NOMBRE}
-                </option>
-            ))}
-            </Form.Control>
+        
+        
         </Form.Group>
             <br />
             <button onClick={() => handleSave(formData)} className='btn btn-success btn-icon-split'>Guardar</button>
@@ -94,8 +91,22 @@ function UserTable() {
     const [isEditing, setIsEditing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const cookies = new Cookies();
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
-
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+  
+    function handlePrevPage() {
+      setCurrentPage(currentPage - 1);
+    }
+  
+    function handleNextPage() {
+      setCurrentPage(currentPage + 1);
+    }
+  
     useEffect(() => {
         const config = {
             headers: {
@@ -103,7 +114,7 @@ function UserTable() {
             }
         };
 
-        axios.get('http://localhost:4000/users/', config)
+        axios.get('http://localhost:4000/api/list-user', config)
             .then(res => {
                 setData(res.data);
             })
@@ -111,6 +122,42 @@ function UserTable() {
                 console.log(err);
             });
     }, []);
+
+    const mostrarAlertaErrror = (id)=>{
+        swal({
+            title: "Eliminar?",
+            text: "Esta seguro de que desea eliminar este Usuario!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("Usuario eliminado exitosamente!", {
+                icon: "success",
+                
+              });
+              handleDelete(id)
+            } else {
+              swal("Usuario no Eliminado!");
+            }
+          });
+      }
+    
+      const mostrarAlertaExito =() =>{
+    
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Usuario Guardada Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './/viewUser';
+        });
+        
+      
+      }
 
     const handleDelete = (id) => {
         const config = {
@@ -152,6 +199,7 @@ function UserTable() {
                 });
                 setData(updatedData);
                 setIsModalOpen(false);
+                mostrarAlertaExito();
             })
             .catch(err => {
                 console.log(err);
@@ -169,8 +217,18 @@ function UserTable() {
                 <h6 className="m-0 font-weight-bold text-primary">Herramientas</h6>
             </div>
             <div className="card-body">
+                <div className="d-flex justify-content-end mt-3">
+                    <button onClick={handlePrevPage} disabled={currentPage === 1} className="btn btn-outline-secondary me-2">
+                    <BsArrowLeft />
+                    </button>
+                    <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-outline-secondary">
+                    <BsArrowRight />
+                    </button>
+                </div>
+                <br></br>
                 <div className="table-responsive">
                 <Table striped bordered hover>
+                    
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -183,12 +241,13 @@ function UserTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map(item => (
+                            {currentData.map((item) => (
                                 <TableRow key={item.id} data={item} handleDelete={handleDelete} handleEdit={handleEdit} />
                             ))}
 
                         </tbody>
                     </Table>
+                    
                 </div>
             </div>
             <Modal show={isModalOpen} onHide={handleCloseModal} aria-labelledby="ModalHeader">
@@ -213,9 +272,9 @@ function TableRow({ data, handleDelete, handleEdit }) {
             <td>{data.lastName}</td>
             <td>{data.username}</td>
             <td>{data.rol}</td>
-            <td>{data.estacionTrabajo}</td>
+            <td>{data.estacion_nombre}</td>
             <td>
-                <button onClick={() => handleDelete(data.id)} className='btn btn-danger btn-icon-split'>Eliminar</button>
+                <button onClick={() => mostrarAlertaErrror(data.id)} className='btn btn-danger btn-icon-split'>Eliminar</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button onClick={() => handleEdit(data)} className='btn btn-warning btn-icon-split'>Editar</button>
             </td>

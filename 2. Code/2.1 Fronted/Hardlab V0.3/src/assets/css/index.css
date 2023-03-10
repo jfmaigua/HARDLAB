@@ -24,6 +24,15 @@ code {
   --box: 0 0 1px #c1bcbc;
   
   }
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .pagination button {
+    margin-left: 5px;
+  }
 
 
 .container{

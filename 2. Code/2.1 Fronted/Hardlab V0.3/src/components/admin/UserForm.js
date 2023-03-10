@@ -1,32 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
 
 export function AddUser() {
 
     const cookies = new Cookies();
 
+    const mostrarAlerta =() =>{
 
+        swal({
+          title:"¡Información Incompleta!", 
+          text:"¡Rellene todo los Campos!", 
+          icon:"warning", 
+          buton:"OK!", 
+        });
+      
+      }
+
+      const mostrarAlertaExito =() =>{
+
+        swal({
+          title:"¡Exitoso!", 
+          text:"¡Usuario Guardado Exitosamente!", 
+          icon:"success", 
+          buton:true, 
+        })
+        .then((value)=>{
+            window.location.href = './viewUser';
+        });
+        
+      }
     const handleLogout = () => {
-
-        cookies.remove('id', { path: "/" });
-        cookies.remove('firstName', { path: "/" });
-        cookies.remove('lastName', { path: "/" });
-        cookies.remove('username', { path: "/" });
-        cookies.remove('rol', { path: "/" });
-        cookies.remove('token', { path: "/" });
-
-        window.location.href = './';
+  
+      cookies.remove('id', {path: "/"});
+      cookies.remove('firstName', {path: "/"});
+      cookies.remove('lastName', {path: "/"});
+      cookies.remove('username', {path: "/"});
+      cookies.remove('rol',  {path: "/"});
+      cookies.remove('token',  {path: "/"});        
+  
+      window.location.href = './';
     };
 
     const [data, setData] = useState('');
     const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [lastName, setLastName] = useState('');    
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [rol, setRol] = useState('');
     const [estacionTrabajo, setEstacionTrabajo] = useState('');
-
+    const [showEstacionTrabajo, setShowEstacionTrabajo] = useState(true);
+    
 
     const handleChange = event => {
         if (event.target.name === 'firstName') {
@@ -42,7 +67,15 @@ export function AddUser() {
             setPassword(event.target.value);
         }
         if (event.target.name === 'rol') {
-            setRol(event.target.value);
+            
+            if(event.target.value==='1'){
+                setShowEstacionTrabajo(false);
+                setEstacionTrabajo(0);
+                setRol(event.target.value);
+            }else {
+                setShowEstacionTrabajo(true);
+                setRol(event.target.value);
+            }
         }
         if (event.target.name === 'estacionTrabajo') {
             setEstacionTrabajo(event.target.value);
@@ -51,7 +84,7 @@ export function AddUser() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        const data = { firstName, lastName, username, password, rol, estacionTrabajo };
+        const data = {  firstName, lastName, username, password, rol, estacionTrabajo };
         console.log(data)
         axios.post('http://localhost:4000/users/registrar', data)
             .then(res => {
@@ -63,11 +96,13 @@ export function AddUser() {
                 setPassword('');
                 setEstacionTrabajo('');
                 setRol('');
-                alert("Ageagado con exito")
-                window.location.href = './viewUser';
-
-            })
-    }
+                mostrarAlertaExito();
+               
+            }).catch(error => {
+                
+                mostrarAlerta();
+            });
+        }
 
     useEffect(() => {
         fetch("http://localhost:4000/api/estacion_trabajo")
@@ -79,9 +114,12 @@ export function AddUser() {
     }, []);
 
     const estaciones = [];
+    estaciones.push(<option className="form-control input-group" >Seleccionar Estacion</option>)
     for (const estacion of data) {
-        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE}</option>)
+
+        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE_ESTACION}</option>)
     }
+
 
     return (
 
@@ -120,15 +158,15 @@ export function AddUser() {
                             <li className="nav-item dropdown no-arrow">
                                 <a className="nav-link dropdown-toggle" href="/Tool" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">{cookies.get('firstName') + ' ' + cookies.get('lastName')}</span>
+                                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">{cookies.get('firstName')+' '+cookies.get('lastName')}</span>
                                     <img className="img-profile rounded-circle"
                                         src="img/undraw_profile.svg" alt='imganen' />
                                 </a>
                             </li>
                             {/* Nav Item - Cerrar Sesion */}
 
-                            <li className="nav-item dropdown no-arrow">
-                                <a className="nav-link dropdown-toggle" href="/" onClick={handleLogout} id="userDropdown" role="button"
+                            <li  className="nav-item dropdown no-arrow">
+                                <a  className="nav-link dropdown-toggle" href="/" onClick={handleLogout} id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  > Cerrar Sesión</a>
                             </li>
                         </ul>
@@ -173,25 +211,27 @@ export function AddUser() {
                                     </div>
 
                                     <div className='row'>
+                                        <div className="col-lg-6 mb-4">
+                                            <label htmlFor="rol">Rol</label>
+                                            <br />
+                                            <select className="form-control" id="rol" name="rol" value={rol} onChange={handleChange}>
+                                                <option>Seleccione el Rol</option>
+                                                <option value="1">Administrador</option>
+                                                <option value="2">Usuario</option>
+                                            </select>
+                                        </div>
 
 
                                         <div className="col-lg-6 mb-4">
                                             <label htmlFor="customFile">Seleccione el puesto de trabajo:</label>
                                             <br />
-                                            <select className="form-control input-group" id="floatingInput" name="estacionTrabajo" value={estacionTrabajo} onChange={handleChange}>
-                                                {estaciones}
+                                            <select type="text" className="form-control input-group" id="floatingInput" name="estacionTrabajo" value={estacionTrabajo} onChange={handleChange} disabled={!showEstacionTrabajo} >
+                                                    {estaciones}
                                             </select>
 
                                         </div>
-                                        <div class="col-lg-6 mb-4">
-                                            <label htmlFor="customFile">Rol:</label>
-                                            <br />
-                                            <select className="form-control input-group" id="customFile" name="rol" value={rol} onChange={handleChange}>
-                                                <option className="form-control input-group" hidden>Escoga un rol</option>
-                                                <option className="form-control input-group" value={1}>Administrador</option>
-                                                <option className="form-control input-group" value={2}>Lider</option>
-                                            </select>
-                                        </div>
+
+                                        
                                     </div>
 
                                     <div>

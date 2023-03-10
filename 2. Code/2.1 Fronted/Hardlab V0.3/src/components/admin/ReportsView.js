@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
 import Reportes from './Reportes';
-import StationTable from './StationTable';
+//import StationTable from '../admin/Station/StationTable';
 
 
 function ReportsView() {

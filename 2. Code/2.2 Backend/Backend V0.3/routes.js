@@ -3,6 +3,25 @@ const routes = express.Router()
 const validate = require('validate');
 const { check, validationResult } = require('express-validator');
 
+routes.get('/list-user', (req, res) => {
+    req.getConnection((err, conn) => {
+        if (err) {
+            res.status(500).send("Error al conectarse a la base de datos");
+            return;
+        }
+
+        conn.query('SELECT users.id,users.firstName,users.lastName,users.username,users.rol, IFNULL(estacion_trabajo.NOMBRE_ESTACION, "Todas las Estaciones") as estacion_nombre FROM users LEFT JOIN estacion_trabajo ON users.estacionTrabajo = estacion_trabajo.COD_ESTACION WHERE users.rol <> 0', (err, rows) => {
+            if (err) {
+                res.status(500).send("Error en la consulta SQL");
+                return;
+            }
+
+            res.json(rows)
+        })
+    })
+})
+
+
 routes.get('/detalleequipo', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) {

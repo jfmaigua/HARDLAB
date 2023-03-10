@@ -64,8 +64,8 @@ function PrincipalUser() {
             </a>            
             <div id="collapseUtilities" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div className="bg-white py-2 collapse-inner rounded">
-                <Link className="collapse-item" to="/agregar-equipo">Agregar</Link>     
-                <Link className="collapse-item" to="/agregar-detalle-equipo">Agregar Detalle</Link>
+                <Link className="collapse-item" to="/agregar-equipo">Agregar</Link>                   
+                <Link className="collapse-item" to="/agregar-peticion">Agregar Peticion</Link>    
                 <Link className="collapse-item" to="/equipos-usuario">Ver</Link>          
               </div>
             </div>
