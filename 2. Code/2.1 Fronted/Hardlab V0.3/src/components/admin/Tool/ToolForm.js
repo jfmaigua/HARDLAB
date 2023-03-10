@@ -7,52 +7,49 @@ export function ToolForm() {
 
     const cookies = new Cookies();
 
-    const mostrarAlerta =() =>{
-
+    const mostrarAlerta = () => {
         swal({
-          title:"¡Información Incompleta!", 
-          text:"¡Rellene todo los Campos!", 
-          icon:"warning", 
-          buton:"OK!", 
+            title: "¡Información Incompleta!",
+            text: "¡Rellene todo los Campos!",
+            icon: "warning",
+            buton: "OK!",
         });
-      
-      }
+    }
 
-      const mostrarAlertaExito =() =>{
+    const mostrarAlertaExito = () => {
 
         swal({
-          title:"¡Exitoso!", 
-          text:"¡Herramienta Guardada Exitosamente!", 
-          icon:"success", 
-          buton:true, 
+            title: "¡Exitoso!",
+            text: "¡Herramienta Guardada Exitosamente!",
+            icon: "success",
+            buton: true,
         })
-        .then((value)=>{
-            window.location.href = './toolUpdate';
-        });
-        
-      }
+            .then((value) => {
+                window.location.href = './toolRegister';
+            });
 
+    }
 
     const handleLogout = () => {
-  
-      cookies.remove('id', {path: "/"});
-      cookies.remove('firstName', {path: "/"});
-      cookies.remove('lastName', {path: "/"});
-      cookies.remove('username', {path: "/"});
-      cookies.remove('rol',  {path: "/"});
-      cookies.remove('token',  {path: "/"});        
-  
-      window.location.href = './';
+
+        cookies.remove('id', { path: "/" });
+        cookies.remove('firstName', { path: "/" });
+        cookies.remove('lastName', { path: "/" });
+        cookies.remove('username', { path: "/" });
+        cookies.remove('rol', { path: "/" });
+        cookies.remove('token', { path: "/" });
+
+        window.location.href = './';
     };
 
     const [data, setData] = useState('');
     const [MARCA, setMarca] = useState('');
-    const [NOMBRE, setNombre] = useState('');    
-    const [COD_ESTACION, setCOD_ESTACION] = useState('');
+    const [NOMBRE, setNombre] = useState('');
+    const [CANT_DISPONIBLE, setCANT_DISPONIBLE] = useState('');
     const [CODIGO_BARRAS, setCodigoBarras] = useState('');
     const [CANTIDAD, setCantidad] = useState('');
     const [IMAGEN, setImagen] = useState('');
-
+    const [TIPO, setTipo] = useState('');
 
     const handleChange = event => {
         if (event.target.name === 'MARCA') {
@@ -70,29 +67,31 @@ export function ToolForm() {
         if (event.target.name === 'IMAGEN') {
             setImagen(event.target.value);
         }
-        if (event.target.name === 'COD_ESTACION') {
-            setCOD_ESTACION(event.target.value);
-           
+        if (event.target.name === 'CANTIDAD') {
+            setCANT_DISPONIBLE(event.target.value);
+        }
+        if (event.target.name === 'TIPO') {
+            setTipo(event.target.value);
         }
     }
 
     const handleSubmit = event => {
         event.preventDefault();
-        if (!COD_ESTACION || !IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS) {           
+        if (!IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS || !TIPO) {
             mostrarAlerta();
             return;
         }
         event.preventDefault();
-        const dataEquipo = { COD_ESTACION, IMAGEN, NOMBRE, MARCA, CANTIDAD, CODIGO_BARRAS };
+        console.log(CANT_DISPONIBLE)
+        const data = { CANT_DISPONIBLE, IMAGEN, NOMBRE, MARCA, CANTIDAD, CODIGO_BARRAS, TIPO };
         console.log(data)
-        axios.post('http://localhost:4000/api/herramienta', dataEquipo)
+        axios.post('http://localhost:4000/api/herramienta', data)
             .then(res => {
                 console.log(res);
                 console.log(res.data);
                 mostrarAlertaExito();
-                window.location.href = './toolUpdate';                            
+
             })
-            
     }
 
     useEffect(() => {
@@ -103,14 +102,6 @@ export function ToolForm() {
                 setData(data);
             });
     }, []);
-
-    const estaciones = [];
-    estaciones.push(<option className="form-control input-group" >Seleccionar Estacion</option>)
-    for (const estacion of data) {
-
-        estaciones.push(<option className="form-control input-group" value={estacion.COD_ESTACION}>{estacion.NOMBRE_ESTACION}</option>)
-    }
-
 
     return (
 
@@ -149,15 +140,15 @@ export function ToolForm() {
                             <li className="nav-item dropdown no-arrow">
                                 <a className="nav-link dropdown-toggle" href="/Tool" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">{cookies.get('firstName')+' '+cookies.get('lastName')}</span>
+                                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">{cookies.get('firstName') + ' ' + cookies.get('lastName')}</span>
                                     <img className="img-profile rounded-circle"
                                         src="img/undraw_profile.svg" alt='imganen' />
                                 </a>
                             </li>
                             {/* Nav Item - Cerrar Sesion */}
 
-                            <li  className="nav-item dropdown no-arrow">
-                                <a  className="nav-link dropdown-toggle" href="/" onClick={handleLogout} id="userDropdown" role="button"
+                            <li className="nav-item dropdown no-arrow">
+                                <a className="nav-link dropdown-toggle" href="/" onClick={handleLogout} id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  > Cerrar Sesión</a>
                             </li>
                         </ul>
@@ -203,14 +194,14 @@ export function ToolForm() {
 
                                     <div className='row'>
 
-
-                                        <div className="col-lg-6 mb-4">
-                                            <label htmlFor="customFile">Seleccione el puesto de trabajo:</label>
+                                        <div class="col-lg-6 mb-4">
+                                            <label htmlFor="customFile">Tipo:</label>
                                             <br />
-                                            <select type="text" className="form-control input-group" id="floatingInput" name="COD_ESTACION" value={COD_ESTACION} onChange={handleChange} >
-                                                    {estaciones}
+                                            <select className="form-control input-group" id="customFile" name="TIPO" value={TIPO} onChange={handleChange}>
+                                            <option className="form-control input-group" hidden>Seleccione el tipo</option>
+                                                <option className="form-control input-group">Herramienta</option>
+                                                <option className="form-control input-group">Periferico</option>
                                             </select>
-
                                         </div>
 
                                         <div className="col-lg-6 mb-4 custom-file">
@@ -220,7 +211,7 @@ export function ToolForm() {
 
                                         </div>
                                     </div>
-
+                                    <br />
                                     <div>
                                         <button className='btn btn-primary' >Agregar</button>
                                     </div>
