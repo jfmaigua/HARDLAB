@@ -10,7 +10,7 @@ routes.get('/list-user', (req, res) => {
             return;
         }
 
-        conn.query('SELECT users.id,users.firstName,users.lastName,users.username,users.rol, IFNULL(estacion_trabajo.NOMBRE_ESTACION, "Todas las Estaciones") as estacion_nombre FROM users LEFT JOIN estacion_trabajo ON users.estacionTrabajo = estacion_trabajo.COD_ESTACION WHERE users.rol <> 0', (err, rows) => {
+        conn.query('SELECT users.id,users.firstName,users.lastName,users.username,users.rol, IFNULL(estacion_trabajo.NOMBRE_ESTACION, "Todas las Estaciones") as estacion_nombre FROM users LEFT JOIN estacion_trabajo ON users.estacionTrabajo = estacion_trabajo.COD_ESTACION WHERE users.rol <> 0 ORDER BY users.firstName ASC', (err, rows) => {
             if (err) {
                 res.status(500).send("Error en la consulta SQL");
                 return;
@@ -174,17 +174,18 @@ routes.get('/equipo', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
 
-        conn.query('SELECT * FROM equipo WHERE TIPO = "Portatil" UNION SELECT * FROM equipo WHERE TIPO = "Escritorio"', (err, rows) => {
+        conn.query('SELECT * FROM ( SELECT equipo.*, estacion_trabajo.nombre_estacion FROM equipo JOIN estacion_trabajo ON equipo.COD_ESTACION = estacion_trabajo.COD_ESTACION WHERE equipo.TIPO = "Portatil" UNION SELECT *, NULL FROM equipo WHERE equipo.TIPO = "Escritorio" ) AS equipo_tipo ORDER BY equipo_tipo.MARCA ASC;', (err, rows) => {
             if (err) return res.send(err)
         res.json(rows)
     })
 })
 })
+
 routes.get('/equiposAlta', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
 
-        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ?', ['alta','Alta'], (err, rows)=>{
+        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ? ORDER BY equipo_tipo.MARCA ASC', ['alta','Alta'], (err, rows)=>{
             if(err) return res.send(err)
             res.json(rows)
         })
@@ -194,7 +195,7 @@ routes.get('/equiposDanados', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
 
-        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ?', ['dañado','Dañado'], (err, rows)=>{
+        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ? ORDER BY equipo_tipo.MARCA ASC', ['dañado','Dañado'], (err, rows)=>{
             if(err) return res.send(err)
             res.json(rows)
         })
@@ -204,7 +205,7 @@ routes.get('/equipoRefactorizar', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
 
-        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ?', ['repotenciar', 'Repotenciar'], (err, rows)=>{
+        conn.query('SELECT * FROM equipo WHERE ESTADO = ? OR ESTADO = ? ORDER BY equipo_tipo.MARCA ASC', ['repotenciar', 'Repotenciar'], (err, rows)=>{
             if(err) return res.send(err)
             res.json(rows)
         })
@@ -218,7 +219,7 @@ routes.get('/equipoAsignado/:id', (req, res) => {
             return;
         }
         const { id } = req.params;
-        conn.query('SELECT * FROM equipo AS E INNER JOIN estacion_trabajo AS ET ON E.COD_EQUIPO=ET.COD_ESTACION WHERE ET.COD_ESTACION=?', [id], (err, rows) => {
+        conn.query('SELECT * FROM equipo AS E INNER JOIN estacion_trabajo AS ET ON E.COD_EQUIPO=ET.COD_ESTACION WHERE ET.COD_ESTACION=? ORDER BY equipo_tipo.MARCA ASC', [id], (err, rows) => {
             if (err) {
                 res.status(500).send("Error al traer datos porfavor intentelo mas tarde");
                 return;
@@ -275,7 +276,7 @@ routes.get('/equipo/:COD_ESTACION', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.status(500).send({ error: 'Error de conexión a la base de datos' })
 
-        const query = `SELECT * FROM equipo WHERE COD_ESTACION = ?`;
+        const query = `SELECT * FROM equipo WHERE COD_ESTACION = ? ORDER BY equipo.MARCA ASC`;
         conn.query(query, [codEstacion], (err, rows) => {
             if (err) return res.status(500).send({ error: 'Error en la consulta a la base de datos' })
 
@@ -425,7 +426,7 @@ routes.get('/equipoAlta', (req, res) => {
 
     req.getConnection((err, conn) => {
         if (err) return res.status(500).send({ error: 'Error de conexión a la base de datos' })
-        const query = `SELECT * FROM equipo  WHERE equipo.ESTADO="Repotenciar"`;
+        const query = `SELECT * FROM equipo  WHERE equipo.ESTADO="Repotenciar" ORDER BY equipo.MARCA ASC`;
         conn.query(query, (err, rows) => {
             if (err) return res.status(500).send({ error: 'Error en la consulta a la base de datos' })
             res.json(rows)
@@ -490,7 +491,7 @@ routes.put('/estacion_trabajo/:COD_ESTACION', (req, res) => {
 routes.get('/estacion_trabajo/:COD_ESTACION', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
-        conn.query('SELECT * FROM estacion_trabajo WHERE COD_ESTACION = ?', [req.params.COD_ESTACION], (err, rows) => {
+        conn.query('SELECT * FROM estacion_trabajo WHERE COD_ESTACION = ? ORDER BY estacion_trabajo.NOMBRE_ESTACION ASC', [req.params.COD_ESTACION], (err, rows) => {
             if (err) return res.send(err)
             res.json(rows)
         })
@@ -501,7 +502,7 @@ routes.get('/herramienta', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
 
-        conn.query('SELECT * FROM herramienta', (err, rows) => {
+        conn.query('SELECT * FROM herramienta ORDER BY herramienta.NOMBRE ASC', (err, rows) => {
             if (err) return res.send(err)
 
             res.json(rows)
@@ -513,7 +514,7 @@ routes.get('/herramienta_disponible', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
 
-        conn.query('SELECT * FROM herramienta WHERE CANT_DISPONIBLE > 0;', (err, rows) => {
+        conn.query('SELECT * FROM herramienta WHERE CANT_DISPONIBLE > 0 ORDER BY herramienta.NOMBRE ASC', (err, rows) => {
             if (err) return res.send(err)
 
             res.json(rows)
@@ -526,7 +527,7 @@ routes.get('/herramientas/:COD_ESTACION', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.status(500).send({ error: 'Error de conexión a la base de datos' })
 
-        const query = `SELECT * FROM asignacion_herramienta h JOIN estacion_trabajo e ON h.COD_ESTACION = e.COD_ESTACION JOIN herramienta ON h.COD_HERRAMIENTA = herramienta.COD_HERRAMIENTA WHERE h.COD_ESTACION=?`;
+        const query = `SELECT * FROM asignacion_herramienta h JOIN estacion_trabajo e ON h.COD_ESTACION = e.COD_ESTACION JOIN herramienta ON h.COD_HERRAMIENTA = herramienta.COD_HERRAMIENTA WHERE h.COD_ESTACION=? ORDER BY herramienta.NOMBRE ASC`;
         conn.query(query, [codEstacion], (err, rows) => {
             if (err) return res.status(500).send({ error: 'Error en la consulta a la base de datos' })
 
@@ -583,25 +584,22 @@ routes.put('/herramienta/:COD_HERRAMIENTA', (req, res) => {
 
 routes.put('/asignarCantidad/:COD_HERRAMIENTA', (req, res) => {
     const { COD_HERRAMIENTA } = req.params;
-    const { CANTIDAD } = req.body;
+    const { CAN_ASIGNADA } = req.body;
+    console.log(COD_HERRAMIENTA)
+    console.log(CAN_ASIGNADA)
     req.getConnection((err, conn) => {
         if (err) {
             return res.status(500).send({ error: 'Error al conectar con la base de datos.' });
         }
-
-
-        const cantidad = parseInt(CANTIDAD);        
+        const cantidad = parseInt(CAN_ASIGNADA);        
         const query = 'UPDATE herramienta SET CANT_DISPONIBLE = GREATEST(CANT_DISPONIBLE - ?, 0) WHERE COD_HERRAMIENTA = ?';
-
         conn.query(query, [cantidad, COD_HERRAMIENTA], (err, result) => {
             if (err) {
                 return res.status(500).send({ error: 'Error al actualizar la cantidad de la herramienta.' });
             }
-
             if (result.affectedRows === 0) {
                 return res.status(404).send({ error: 'No se encontró la herramienta especificada.' });
             }
-
             return res.status(200).send({ message: 'Cantidad de herramienta actualizada exitosamente.' });
         });
     });

@@ -51,8 +51,12 @@ function EditForm({ data, handleSave }) {
                 <Form.Control type="date" name="FECHA_SALIDA" value={formData.FECHA_SALIDA} onChange={handleChange} />
             </Form.Group>
             <Form.Group controlId="formESTADO">
-                <Form.Label>Estado</Form.Label>
-                <Form.Control type="text" name="ESTADO" value={formData.ESTADO} onChange={handleChange} />
+            <Form.Label>Estado</Form.Label>
+            <Form.Control as="select" name="ESTADO" value={formData.ESTADO} onChange={handleChange}>
+                <option value="dañada">Dañada</option>
+                <option value="repotenciar">Repotenciar</option>
+                <option value="alta">Alta</option>
+            </Form.Control>
             </Form.Group>
             <br />
             <button onClick={() => handleSave(formData)} className='btn btn-success btn-icon-split'>Guardar</button>
@@ -377,7 +381,6 @@ function TableEquiposUser() {
                             <tr>
                                 <th>Detalle</th>
                                 <th>Código equipo</th>
-                                <th>Estación</th>
                                 <th>Marca</th>
                                 <th>Fecha de Entrada</th>
                                 <th>Fecha de Salida</th>
@@ -417,8 +420,7 @@ function TableEquiposUser() {
                     <BsEyeFill onClick={() => handleShowDetail(data.COD_EQUIPO)} >Equipo</BsEyeFill>
                 </td>
                 <td> &nbsp;&nbsp;
-                    {data.COD_EQUIPO}</td>
-                <td>{data.COD_ESTACION}</td>
+                    {data.SERIAL}</td>
                 <td>{data.MARCA}</td>
                 <td>{FormatearFecha(data.FECHA_INGRESO)}</td>
                 <td>{FormatearFecha(data.FECHA_SALIDA)}</td>

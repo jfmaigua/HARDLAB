@@ -369,7 +369,7 @@ function DesktopTable() {
                         <thead>
                             <tr>
                                 <th>Detalle</th>
-                                <th>Código equipo</th>
+                                <th>Serial</th>
                                 <th>Estación</th>
                                 <th>Marca</th>
                                 <th>Fecha de Entrada</th>
@@ -410,8 +410,8 @@ function DesktopTable() {
                     <BsEyeFill onClick={() => handleShowDetail(data.COD_EQUIPO)} >Equipo</BsEyeFill>
                 </td>
                 <td> &nbsp;&nbsp;
-                    {data.COD_EQUIPO}</td>
-                <td>{data.COD_ESTACION}</td>
+                    {data.SERIAL}</td>
+                <td>{data.nombre_estacion}</td>
                 <td>{data.MARCA}</td>
                 <td>{FormatearFecha(data.FECHA_INGRESO)}</td>
                 <td>{FormatearFecha(data.FECHA_SALIDA)}</td>

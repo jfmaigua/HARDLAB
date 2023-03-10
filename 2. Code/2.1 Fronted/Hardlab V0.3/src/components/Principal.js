@@ -12,7 +12,7 @@ function Principal() {
       {/* Page Wrapper */}
       <div id="wrapper">
 
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"  id="accordionSidebar"  style={{ height: '1000px' }}>
 
           {/* Sidebar */}
           {/* Sidebar - Brand */}
@@ -28,7 +28,7 @@ function Principal() {
 
           {/* Nav Item - Dashboard */}
           <li className="nav-item active">
-            <a className="nav-link" href="index.html">
+            <a className="nav-link" href="/toolUpdate">
               <i class="fas fa-home"></i>
               <span>Inicio</span></a>
           </li>

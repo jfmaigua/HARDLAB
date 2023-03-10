@@ -31,7 +31,7 @@ function TableUser() {
     }
 
     fetchData();
-  }, [cookies]);
+  }, []);
 
   return (
     <div>
@@ -49,7 +49,6 @@ function TableUser() {
       <thead>
         <tr>
           <th>#</th>
-          <th>Imagen</th>
           <th>Nombre</th>
           <th>Marca</th>
           <th>Cantidad</th>
@@ -62,9 +61,6 @@ function TableUser() {
           return (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>
-                <img src={imageURL} alt={item.NOMBRE} />
-              </td>
               <td>{item.NOMBRE}</td>
               <td>{item.MARCA}</td>
               <td>{item.CAN_ASIGNADA}</td>

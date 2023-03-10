@@ -50,10 +50,6 @@ function EditForm({ data, handleSave }) {
                 <Form.Control type="text" name="id" value={formData.id} onChange={handleChange}  disabled />
             </Form.Group>
             <Form.Group controlId="formfirstName">
-                <Form.Label>Estacion de Trabajo</Form.Label>
-                <Form.Control type="text" name="estacionTrabajo" value={formData.estacionTrabajo} onChange={handleChange}  disabled />
-            </Form.Group>
-            <Form.Group controlId="formfirstName">
                 <Form.Label>Nombres</Form.Label>
                 <Form.Control type="text" name="firstName" value={formData.firstName} onChange={handleChange}  />
             </Form.Group>
@@ -65,17 +61,7 @@ function EditForm({ data, handleSave }) {
                 <Form.Label>Usuario</Form.Label>
                 <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} />
             </Form.Group>
-            <Form.Group controlId="formpassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="formrol">
-                <Form.Label>rol</Form.Label>
-                <Form.Control type="text" name="rol" value={formData.rol} onChange={handleChange} />
-            </Form.Group>
             <Form.Group as={Col} controlId="formGridState">
-        
-        
         </Form.Group>
             <br />
             <button onClick={() => handleSave(formData)} className='btn btn-success btn-icon-split'>Guardar</button>

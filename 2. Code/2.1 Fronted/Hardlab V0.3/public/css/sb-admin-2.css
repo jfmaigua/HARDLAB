@@ -610,6 +610,7 @@ pre code {
   width: 100%;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
+  height: 100%;
 }
 
 .col {
@@ -4142,6 +4143,7 @@ input[type="button"].btn-block {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  height: 100%;
 }
 
 .navbar-nav .nav-link {
@@ -4698,6 +4700,7 @@ input[type="button"].btn-block {
 
 .accordion {
   overflow-anchor: none;
+  height: 100%;
 }
 
 .accordion > .card {

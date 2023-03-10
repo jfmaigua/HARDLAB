@@ -12,7 +12,7 @@ function PrincipalUser() {
       {/* Page Wrapper */}
       <div id="wrapper">
 
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{ height: '1000px' }}>
 
           {/* Sidebar */}
           {/* Sidebar - Brand */}

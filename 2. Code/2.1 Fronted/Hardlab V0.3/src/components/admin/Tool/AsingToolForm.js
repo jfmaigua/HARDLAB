@@ -84,7 +84,6 @@ export function AsingToolForm() {
                 setHerram(res.data[0]);
                 if (CAN_ASIGNADA > res.data[0].CANT_DISPONIBLE) {
                     mostrarAlertaError();
-                    window.location.href = './asing';
                 } else {
                     axios.post('http://localhost:4000/api/asignacion', data)
                         .then(res => {
