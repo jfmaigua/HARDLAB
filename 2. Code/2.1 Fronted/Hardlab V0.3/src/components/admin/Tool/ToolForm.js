@@ -78,8 +78,7 @@ export function ToolForm() {
 
     const handleSubmit = event => {
         event.preventDefault();
-        if (!COD_ESTACION || !IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS) {
-            //alert("Por favor, llene todos los campos");
+        if (!COD_ESTACION || !IMAGEN || !NOMBRE || !MARCA || !CANTIDAD || !CODIGO_BARRAS) {           
             mostrarAlerta();
             return;
         }
@@ -90,11 +89,8 @@ export function ToolForm() {
             .then(res => {
                 console.log(res);
                 console.log(res.data);
-                //alert("Ageagado con exito")
                 mostrarAlertaExito();
-                //window.location.href = './toolUpdate';
-                
-                
+                window.location.href = './toolUpdate';                            
             })
             
     }

@@ -1,8 +1,19 @@
 import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 function ToolsTable() {
+
+    const mostrarAlerta = () => {
+        swal({
+            title: "¡Error!",
+            text: "¡No hay herramientas registradas!",
+            icon: "warning",
+            buton: "OK!",
+        });
+    }
+
     const [data, setData] = useState([]);
     const [estacion, setEstacion] = useState('');
     const [COD_ESTACION, setCOD_ESTACION] = useState('');
@@ -30,7 +41,7 @@ function ToolsTable() {
                 setData(res.data);
             })
             .catch(err => {
-                alert('No se registraron herramientas')
+                mostrarAlerta();
             });
         console.log(data)
     };

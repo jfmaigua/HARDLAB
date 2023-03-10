@@ -1,11 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
 
 export function AsingToolForm() {
 
     const cookies = new Cookies();
 
+    const mostrarAlerta = () => {
+        swal({
+            title: "¡Información Incompleta!",
+            text: "¡Rellene todo los Campos!",
+            icon: "warning",
+            buton: "OK!",
+        });
+    }
+
+    const mostrarAlertaError = () => {
+        swal({
+            title: "¡Error!",
+            text: "¡La cantidad es superior a la cantidad disponible!",
+            icon: "warning",
+            buton: "OK!",
+        });
+    }
+
+    const mostrarAlertaExito = () => {
+
+        swal({
+            title: "¡Exitoso!",
+            text: "¡Herramienta Guardada Exitosamente!",
+            icon: "success",
+            buton: true,
+        })
+            .then((value) => {
+                window.location.href = './toolUpdate';
+            });
+
+    }
 
     const handleLogout = () => {
 
@@ -41,7 +73,7 @@ export function AsingToolForm() {
     const handleSubmit = event => {
         event.preventDefault();
         if (!COD_ESTACION || !COD_HERRAMIENTA || !CAN_ASIGNADA) {
-            alert("Por favor, llene todos los campos");
+            mostrarAlerta();
             return;
         }
         event.preventDefault();
@@ -51,7 +83,7 @@ export function AsingToolForm() {
             .then(res => {
                 setHerram(res.data[0]);
                 if (CAN_ASIGNADA > res.data[0].CANT_DISPONIBLE) {
-                    alert('La cantidad es superior a la cantidad disponible.')
+                    mostrarAlertaError();
                     window.location.href = './asing';
                 } else {
                     axios.post('http://localhost:4000/api/asignacion', data)
@@ -61,7 +93,7 @@ export function AsingToolForm() {
                         })
                     axios.put(`http://localhost:4000/api/asignarCantidad/${COD_HERRAMIENTA}`, { 'CAN_ASIGNADA': CAN_ASIGNADA })
                         .then(res => {
-                            alert("Ageagado con exito")
+                            mostrarAlertaExito();
                         });
                 }
             });
@@ -71,7 +103,6 @@ export function AsingToolForm() {
         fetch("http://localhost:4000/api/estacion_trabajo")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setData(data);
             });
     }, []);
@@ -80,7 +111,6 @@ export function AsingToolForm() {
         fetch("http://localhost:4000/api/herramienta_disponible")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setHerramienta(data);
             });
     }, []);

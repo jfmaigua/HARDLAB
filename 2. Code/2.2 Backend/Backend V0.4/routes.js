@@ -487,25 +487,36 @@ routes.get('/estacion_trabajo/:COD_ESTACION', (req, res) => {
     })
 })
 
-
 routes.get('/herramienta', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
 
-        conn.query('SELECT * FROM herramienta JOIN estacion_trabajo ON herramienta.COD_ESTACION = estacion_trabajo.COD_ESTACION', (err, rows) => {
+        conn.query('SELECT * FROM herramienta', (err, rows) => {
             if (err) return res.send(err)
 
             res.json(rows)
         })
     })
 })
-routes.get('/herramienta/:COD_ESTACION', (req, res) => {
-    const codEstacion = req.params.COD_ESTACION;
 
+routes.get('/herramienta_disponible', (req, res) => {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err)
+
+        conn.query('SELECT * FROM herramienta WHERE CANT_DISPONIBLE > 0;', (err, rows) => {
+            if (err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+routes.get('/herramientas/:COD_ESTACION', (req, res) => {
+    const codEstacion = req.params.COD_ESTACION;
     req.getConnection((err, conn) => {
         if (err) return res.status(500).send({ error: 'Error de conexión a la base de datos' })
 
-        const query = `SELECT * FROM herramienta WHERE COD_ESTACION = ?`;
+        const query = `SELECT * FROM asignacion_herramienta h JOIN estacion_trabajo e ON h.COD_ESTACION = e.COD_ESTACION JOIN herramienta ON h.COD_HERRAMIENTA = herramienta.COD_HERRAMIENTA WHERE h.COD_ESTACION=?`;
         conn.query(query, [codEstacion], (err, rows) => {
             if (err) return res.status(500).send({ error: 'Error en la consulta a la base de datos' })
 
@@ -516,6 +527,16 @@ routes.get('/herramienta/:COD_ESTACION', (req, res) => {
     })
 })
 
+routes.post('/asignacion', (req, res) => {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err)
+        conn.query('INSERT INTO asignacion_herramienta set ?', [req.body], (err, rows) => {
+            if (err) return res.send(err)
+
+            res.send('Herramienta Añadida!')
+        })
+    })
+})
 
 routes.post('/herramienta', (req, res) => {
     req.getConnection((err, conn) => {
@@ -549,6 +570,33 @@ routes.put('/herramienta/:COD_HERRAMIENTA', (req, res) => {
         })
     })
 })
+
+routes.put('/asignarCantidad/:COD_HERRAMIENTA', (req, res) => {
+    const { COD_HERRAMIENTA } = req.params;
+    const { CANTIDAD } = req.body;
+    req.getConnection((err, conn) => {
+        if (err) {
+            return res.status(500).send({ error: 'Error al conectar con la base de datos.' });
+        }
+
+
+        const cantidad = parseInt(CANTIDAD);        
+        const query = 'UPDATE herramienta SET CANT_DISPONIBLE = GREATEST(CANT_DISPONIBLE - ?, 0) WHERE COD_HERRAMIENTA = ?';
+
+        conn.query(query, [cantidad, COD_HERRAMIENTA], (err, result) => {
+            if (err) {
+                return res.status(500).send({ error: 'Error al actualizar la cantidad de la herramienta.' });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).send({ error: 'No se encontró la herramienta especificada.' });
+            }
+
+            return res.status(200).send({ message: 'Cantidad de herramienta actualizada exitosamente.' });
+        });
+    });
+});
+
 routes.get('/herramienta/:COD_HERRAMIENTA', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -558,7 +606,6 @@ routes.get('/herramienta/:COD_HERRAMIENTA', (req, res) => {
         })
     })
 })
-
 
 routes.get('/persona', (req, res) => {
     req.getConnection((err, conn) => {

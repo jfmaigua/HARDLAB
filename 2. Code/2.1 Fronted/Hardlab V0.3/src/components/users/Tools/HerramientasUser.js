@@ -1,6 +1,6 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import TableUser from '../../admin/TableUser';
+import TableUser from '../Desktops/TableUser';
 
 
 function HerramientasUser() {

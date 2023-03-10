@@ -214,7 +214,7 @@ function UserTable() {
     return (
         <div className="card shadow mb-4">
             <div className="card-header py-3">
-                <h6 className="m-0 font-weight-bold text-primary">Herramientas</h6>
+                <h6 className="m-0 font-weight-bold text-primary">Usuarios</h6>
             </div>
             <div className="card-body">
                 <div className="d-flex justify-content-end mt-3">
@@ -252,7 +252,7 @@ function UserTable() {
             </div>
             <Modal show={isModalOpen} onHide={handleCloseModal} aria-labelledby="ModalHeader">
                 <Modal.Header closeButton>
-                    <Modal.Title id="ModalHeader">Editar Equipo</Modal.Title>
+                    <Modal.Title id="ModalHeader">Editar</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <EditForm data={editData} handleSave={handleSave}></EditForm>
