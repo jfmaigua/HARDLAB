@@ -1,9 +1,9 @@
 ﻿{
     "database": {
-        "host": "localhost",
-        "port": 3306,
+        "host": "162.222.203.47",
+        "port": 3307,
         "user": "root",
-        "password": "",
+        "password": "mysqlHom@rsin2023",
         "database": "hardlab"
     },
     "secret": "prueba"
