@@ -1,4 +1,4 @@
-const HOSTNAME = 'http://localhost:4000/';
+const HOSTNAME = '162.222.203.47/';
 
 const URIS = {
     HOSTNAME: HOSTNAME,
