@@ -1,4 +1,4 @@
-const HOSTNAME = 'backend/';
+const HOSTNAME = 'http://localhost:4000/';
 
 const URIS = {
     HOSTNAME: HOSTNAME,
