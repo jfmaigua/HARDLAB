@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/render
 import Cookies from "universal-cookie";
 import logo from '../../../img/logo_factura.png'; // importar la imagen del logo
 
-const DocuEquiposDañadosPDF = ({ equiposD }) => {
+const DocuEquiposDanadosPDF = ({ equiposD }) => {
 
   const cookies = new Cookies();
   const styles = StyleSheet.create({
@@ -141,4 +141,4 @@ const DocuEquiposDañadosPDF = ({ equiposD }) => {
   );
 };
 
-export default DocuEquiposDañadosPDF;
+export default DocuEquiposDanadosPDF;

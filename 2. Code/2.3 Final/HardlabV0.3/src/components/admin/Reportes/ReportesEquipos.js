@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { VistaWeb } from './VistaWeb';
 import DocuPDF from './DocuPDF';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import DocuEquiposDañadosPDF from './DocuEquiposDañadosPDF';
+import DocuEquiposDanadosPDF from './DocuEquiposDanadosPDF';
 import DocuEquiposRefactorizarPDF from './DocuEquiposRefactorizarPDF';
 import URIS from '../../../config';
 
@@ -78,7 +78,7 @@ function ReportesEquipos() {
         </Col>
         <Col xs="auto" className="mx-3 my-2">
         <PDFDownloadLink
-            document={<DocuEquiposDañadosPDF equiposD={equiposD} />}
+            document={<DocuEquiposDanadosPDF equiposD={equiposD} />}
             fileName="Reporte_Equipos_Dañados.pdf"
           ><Button variant="dark">Reporte Equipos Dañados</Button></PDFDownloadLink>
         </Col>

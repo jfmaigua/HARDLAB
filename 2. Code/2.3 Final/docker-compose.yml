@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./HardlabV0.3
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    hostname: frontend
+    container_name: frontend
+    networks:
+      - hardlab_network
+    volumes:
+      - ./frontend:/usr/src/app
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./BackendV0.4
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+    hostname: backend
+    container_name: backend
+    networks:
+      - hardlab_network
+    volumes:
+      - ./backend:/usr/src/app
+
+networks:
+  hardlab_network:
+    name: hardlab_network
