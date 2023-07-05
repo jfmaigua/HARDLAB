@@ -1,11 +1,12 @@
 # Establece la imagen base
-FROM node:18
+FROM node:14
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /usr/src/app
 
 # Copia el archivo package.json y package-lock.json al directorio de trabajo
-COPY package*.json ./
+COPY package.json .
+COPY package-lock.json .
 
 # Instala las dependencias del proyecto
 RUN npm install
@@ -17,5 +18,3 @@ COPY . .
 # Expone el puerto en el que el servidor Express.js se ejecuta (por defecto, el puerto 3000)
 EXPOSE 4000
 
-# Define el comando para iniciar el servidor
-CMD [ "npm", "start" ]

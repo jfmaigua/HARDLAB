@@ -1,4 +1,4 @@
-const HOSTNAME = '162.222.203.47/';
+const HOSTNAME = 'backend/';
 
 const URIS = {
     HOSTNAME: HOSTNAME,
