@@ -14,7 +14,6 @@ services:
       - ./frontend:/usr/src/app
     depends_on:
       - backend
-    command: sh -c "serve -s build"
 
   backend:
     build:
@@ -28,8 +27,6 @@ services:
       - hardlab_network
     volumes:
       - ./backend:/usr/src/app
-    command: sh -c "npm start"
-
 networks:
   hardlab_network:
     name: hardlab_network
